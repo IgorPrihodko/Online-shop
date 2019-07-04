@@ -7,10 +7,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-  <head>
-    <title>$Title$</title>
-  </head>
-  <body>
-  $Hello, Mister Buyer!$
-  </body>
+<head>
+  <title>$Title$</title>
+</head>
+<body>
+  <center>
+    Welcome to this online-Store =)
+
+    <a href="/register">Registration</a>
+  </center>
+</body>
 </html>
