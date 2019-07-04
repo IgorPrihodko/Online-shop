@@ -18,6 +18,8 @@
         Repeat password <input name="repeatPassword" type="password"/>
         <button type="submit">Register</button>
     </form>
+    <h2>${notEquals}</h2>
+    <h2>${isEmpty}</h2>
 </center>
 </body>
 </html>

@@ -21,6 +21,7 @@
     <form action="/" method="get">
         <button type="submit">Exit</button>
     </form>
+    <h2>${isEmpty}</h2>
 </center>
 </body>
 </html>

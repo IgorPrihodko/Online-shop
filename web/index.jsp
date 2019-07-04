@@ -12,8 +12,8 @@
 </head>
 <body>
   <center>
-    Welcome to this online-Store =)
-
+    Welcome to this online-Store!
+    You can register here --->
     <a href="/register">Registration</a>
   </center>
 </body>
