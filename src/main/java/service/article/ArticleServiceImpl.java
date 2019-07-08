@@ -10,6 +10,11 @@ public class ArticleServiceImpl implements ArticleService {
     private static ArticleDao articleDao = ArticleServiceFactory.getInstance();
 
     @Override
+    public Long createId() {
+        return articleDao.createID();
+    }
+
+    @Override
     public void addArticle(Article article) {
         articleDao.addArticle(article);
     }

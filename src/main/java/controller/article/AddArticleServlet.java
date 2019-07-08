@@ -1,7 +1,8 @@
 package controller.article;
 
 import com.sun.istack.internal.NotNull;
-import dao.article.ArticleDaoImpl;
+import dao.article.ArticleDao;
+import factory.ArticleDaoFactory;
 import model.Article;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 @WebServlet(value = "/addArticle")
 public class AddArticleServlet extends HttpServlet {
+
+    private ArticleDao articleDao = ArticleDaoFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -35,7 +38,7 @@ public class AddArticleServlet extends HttpServlet {
         Double price = Double.parseDouble(req.getParameter("price"));
 
         Article article = new Article(title, description, price);
-        ArticleDaoImpl.ARTICLES.put(article.getId(), article);
+        articleDao.addArticle(article);
         System.out.println(article);
         resp.sendRedirect("/articles");
     }

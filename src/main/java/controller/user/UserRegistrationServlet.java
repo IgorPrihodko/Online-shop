@@ -1,7 +1,8 @@
 package controller.user;
 
 import com.sun.istack.internal.NotNull;
-import dao.user.UserDaoImpl;
+import dao.user.UserDao;
+import factory.UserDaoFactory;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 @WebServlet(value = "/register", loadOnStartup = 1)
 public class UserRegistrationServlet extends HttpServlet {
+
+    private UserDao userDao = UserDaoFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -59,7 +62,7 @@ public class UserRegistrationServlet extends HttpServlet {
             resp.sendRedirect("/register");
         } else {
             User user = new User(email, password);
-            UserDaoImpl.USERS.put(user.getId(), user);
+            userDao.addUser(user);
             System.out.println(user);
             resp.sendRedirect("/users");
         }

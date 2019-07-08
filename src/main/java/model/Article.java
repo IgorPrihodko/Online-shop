@@ -7,7 +7,7 @@ public class Article {
     private Double price;
 
     public Article(String title, String description, Double price) {
-        this.id = (long)Math.abs((title + description + price).hashCode());
+        this.id = null;
         this.title = title;
         this.description = description;
         this.price = price;

@@ -6,7 +6,7 @@ public class User {
     private String password;
 
     public User(String email, String password) {
-        this.id = (long)Math.abs(email.hashCode());
+        this.id = null;
         this.email = email;
         this.password = password;
     }

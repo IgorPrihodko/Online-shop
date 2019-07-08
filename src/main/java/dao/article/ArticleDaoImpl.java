@@ -6,10 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ArticleDaoImpl implements ArticleDao {
-    public static final Map<Long, Article> ARTICLES = new HashMap<Long, Article>();
+    private static final Map<Long, Article> ARTICLES = new HashMap<Long, Article>();
+    private static Long idCounter = 1L;
+
+    @Override
+    public synchronized Long createID() {
+        return idCounter++;
+    }
 
     @Override
     public void addArticle(Article article) {
+        article.setId(createID());
         ARTICLES.put(article.getId(), article);
     }
 
