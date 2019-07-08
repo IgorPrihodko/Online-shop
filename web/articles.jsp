@@ -39,5 +39,18 @@
         printWriter.write("</table>");
     %>
 
+    <%
+        PrintWriter printWriter2 = response.getWriter();
+        printWriter2.write("<center>");
+        printWriter2.write("<a href=\"/users\">List of all users</a>");
+        printWriter2.write("</center>");
+    %>
+
+    <%
+        PrintWriter printWriter3 = response.getWriter();
+        printWriter3.write("<center>");
+        printWriter3.write("<a href=\"/addArticle\">Add new article</a>");
+        printWriter3.write("</center>");
+    %>
 </body>
 </html>
