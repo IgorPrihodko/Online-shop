@@ -13,7 +13,7 @@
 <body>
 <center>
     <form action="/register" method="post">
-        Email <input name="email" type="email"/>
+        Email <input name="email" type="email" value="<%=request.getAttribute("email")%>"/>
         Password <input name="password" type="password"/>
         Repeat password <input name="repeatPassword" type="password"/>
         <button type="submit">Register</button>

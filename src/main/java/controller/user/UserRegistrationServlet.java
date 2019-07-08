@@ -1,7 +1,7 @@
-package controller;
+package controller.user;
 
 import com.sun.istack.internal.NotNull;
-import dao.DataBase;
+import dao.user.UserDaoImpl;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -24,25 +24,44 @@ public class UserRegistrationServlet extends HttpServlet {
     @NotNull
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        String email = "";
+        String password = "";
+        String repeatPassword = "";
         if (req.getParameter("email").isEmpty() ||
                 req.getParameter("password").isEmpty() ||
                 req.getParameter("repeatPassword").isEmpty()) {
-            req.setAttribute("isEmpty", "One or more fields are empty! Try better.");
+            if (req.getParameter("email").isEmpty()) {
+                req.setAttribute("isEmpty", "Email can not be empty! Try another.");
+            } else {
+                req.setAttribute("email", req.getParameter("email"));
+            }
+            if (req.getParameter("password").isEmpty()) {
+                req.setAttribute("isEmpty", "Password can not be empty! Try another.");
+            } else {
+                req.setAttribute("password", req.getParameter("password"));
+            }
+            if (req.getParameter("repeatPassword").isEmpty()) {
+                req.setAttribute("isEmpty", "Password can not be empty! Try another.");
+            } else {
+                req.setAttribute("repeatPassword", req.getParameter("repeatPassword"));
+            }
             req.getRequestDispatcher("register.jsp").forward(req, resp);
             resp.sendRedirect("/register");
         }
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
-        String repeatPassword = req.getParameter("repeatPassword");
+        email = req.getParameter("email");
+        password = req.getParameter("password");
+        repeatPassword = req.getParameter("repeatPassword");
 
         if (!repeatPassword.equals(password)) {
             req.setAttribute("notEquals", "Your passwords are not equals! Try better.");
+            req.setAttribute("email", req.getParameter("email"));
             req.getRequestDispatcher("register.jsp").forward(req, resp);
+            resp.sendRedirect("/register");
         } else {
             User user = new User(email, password);
-            DataBase.USERS.put(user.getId(), user);
+            UserDaoImpl.USERS.put(user.getId(), user);
             System.out.println(user);
-            resp.sendRedirect("/addArticle");
+            resp.sendRedirect("/users");
         }
     }
 }

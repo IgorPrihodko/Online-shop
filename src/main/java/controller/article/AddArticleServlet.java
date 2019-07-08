@@ -1,7 +1,7 @@
-package controller;
+package controller.article;
 
 import com.sun.istack.internal.NotNull;
-import dao.DataBase;
+import dao.article.ArticleDaoImpl;
 import model.Article;
 
 import javax.servlet.ServletException;
@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/addArticle")
 public class AddArticleServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -34,8 +35,8 @@ public class AddArticleServlet extends HttpServlet {
         Double price = Double.parseDouble(req.getParameter("price"));
 
         Article article = new Article(title, description, price);
-        DataBase.ARTICLES.put(article.getId(), article);
+        ArticleDaoImpl.ARTICLES.put(article.getId(), article);
         System.out.println(article);
-        resp.sendRedirect("/addArticle");
+        resp.sendRedirect("/articles");
     }
 }
