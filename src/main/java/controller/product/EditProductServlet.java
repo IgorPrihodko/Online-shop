@@ -3,6 +3,7 @@ package controller.product;
 import dao.product.ProductDao;
 import factory.ProductDaoFactory;
 import model.Product;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/editProduct")
 public class EditProductServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(EditProductServlet.class);
     private ProductDao productDao = ProductDaoFactory.getInstance();
 
     @Override
@@ -60,6 +62,7 @@ public class EditProductServlet extends HttpServlet {
         productDao.getById(id).setTitle(title);
         productDao.getById(id).setDescription(description);
         productDao.getById(id).setPrice(price);
+        logger.info("Edit product " + productDao.getById(id) + " in db");
         resp.sendRedirect("/products");
     }
 }

@@ -3,6 +3,7 @@ package controller.user;
 import dao.user.UserDao;
 import factory.UserServiceFactory;
 import model.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/editUser")
 public class EditUserServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(EditUserServlet.class);
     private UserDao userDao = UserServiceFactory.getInstance();
 
     @Override
@@ -71,6 +73,7 @@ public class EditUserServlet extends HttpServlet {
         } else {
             userDao.getById(id).setEmail(email);
             userDao.getById(id).setPassword(password);
+            logger.info("Edit user data " + userDao.getById(id) + " in db");
         }
         resp.sendRedirect("/users");
     }

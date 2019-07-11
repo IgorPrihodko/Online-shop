@@ -3,6 +3,7 @@ package controller.user;
 import dao.user.UserDao;
 import factory.UserServiceFactory;
 import model.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/register")
 public class UserRegistrationServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(UserRegistrationServlet.class);
     private UserDao userDao = UserServiceFactory.getInstance();
 
     @Override
@@ -62,6 +64,7 @@ public class UserRegistrationServlet extends HttpServlet {
         } else {
             User user = new User(email, password);
             userDao.addUser(user);
+            logger.info("Add new user " + user + " to db");
             resp.sendRedirect("/users");
         }
     }

@@ -1,0 +1,20 @@
+2019-07-12 00:20:14 INFO  UserDaoImpl:17 - Increment id counter for user
+2019-07-12 00:20:14 INFO  UserDaoImpl:25 - Add user User{id=0, email='test@test', password='test'} to db
+2019-07-12 00:20:14 INFO  ProductDaoImpl:17 - Increment id counter for product
+2019-07-12 00:20:14 INFO  ProductDaoImpl:25 - Add product Product{id=0, title='test', description='test', price=0.0} to db
+2019-07-12 00:21:52 INFO  UserDaoImpl:17 - Increment id counter for user
+2019-07-12 00:21:52 INFO  UserDaoImpl:25 - Add user User{id=0, email='test@test', password='test'} to db
+2019-07-12 00:21:52 INFO  ProductDaoImpl:17 - Increment id counter for product
+2019-07-12 00:21:52 INFO  ProductDaoImpl:25 - Add product Product{id=0, title='test', description='test', price=0.0} to db
+2019-07-12 00:24:15 INFO  UserDaoImpl:17 - Increment id counter for user
+2019-07-12 00:24:15 INFO  UserDaoImpl:25 - Add user User{id=0, email='test@test', password='test'} to db
+2019-07-12 00:24:15 INFO  ProductDaoImpl:17 - Increment id counter for product
+2019-07-12 00:24:15 INFO  ProductDaoImpl:25 - Add product Product{id=0, title='test', description='test', price=0.0} to db
+2019-07-12 00:24:25 INFO  UserDaoImpl:17 - Increment id counter for user
+2019-07-12 00:24:25 INFO  UserDaoImpl:25 - Add user User{id=1, email='111@111', password='111'} to db
+2019-07-12 00:26:17 INFO  UserDaoImpl:17 - Increment id counter for user
+2019-07-12 00:26:17 INFO  UserDaoImpl:25 - Add user User{id=0, email='test@test', password='test'} to db
+2019-07-12 00:26:17 INFO  ProductDaoImpl:17 - Increment id counter for product
+2019-07-12 00:26:17 INFO  ProductDaoImpl:25 - Add product Product{id=0, title='test', description='test', price=0.0} to db
+2019-07-12 00:26:25 INFO  UserDaoImpl:17 - Increment id counter for user
+2019-07-12 00:26:25 INFO  UserDaoImpl:25 - Add user User{id=1, email='111@111', password='111'} to db

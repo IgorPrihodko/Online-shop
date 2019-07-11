@@ -3,6 +3,7 @@ package controller.product;
 import dao.product.ProductDao;
 import factory.ProductDaoFactory;
 import model.Product;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/deleteProduct")
 public class DeleteProductServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(DeleteProductServlet.class);
     private ProductDao productDao = ProductDaoFactory.getInstance();
 
     @Override
@@ -35,6 +37,7 @@ public class DeleteProductServlet extends HttpServlet {
         Long id = Long.valueOf(req.getParameter("id"));
         req.setAttribute("id", id);
         productDao.removeProduct(id);
+        logger.info("Delete product " + productDao.getById(id) + " from db");
         resp.sendRedirect("/products");
     }
 }

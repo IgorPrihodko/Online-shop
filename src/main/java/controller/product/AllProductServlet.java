@@ -3,6 +3,7 @@ package controller.product;
 import dao.product.ProductDao;
 import factory.ProductServiceFactory;
 import model.Product;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import java.util.List;
 @WebServlet(value = "/products")
 public class AllProductServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(AllProductServlet.class);
     private static final ProductDao productDao = ProductServiceFactory.getInstance();
     private List<Product> allProducts = productDao.getAll();
 
@@ -22,6 +24,7 @@ public class AllProductServlet extends HttpServlet {
         if (allProducts.isEmpty()) {
             Product initialProduct = new Product("test", "test", 0.0);
             productDao.addProduct(initialProduct);
+            logger.info("Add initial product " + initialProduct);
         }
     }
 

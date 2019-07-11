@@ -3,6 +3,7 @@ package controller.user;
 import dao.user.UserDao;
 import factory.UserServiceFactory;
 import model.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/signIn")
 public class SignInServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(SignInServlet.class);
     private static final UserDao userDao = UserServiceFactory.getInstance();
 
     @Override
@@ -43,6 +45,7 @@ public class SignInServlet extends HttpServlet {
 
         for (User user : userDao.getAll()) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                logger.info("Sign in user " + user);
                 resp.sendRedirect("/users");
                 return;
             }
