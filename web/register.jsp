@@ -8,18 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Register</title>
+    <title>Registration</title>
 </head>
 <body>
 <center>
     <form action="/register" method="post">
-        Email <input name="email" type="email" value="<%=request.getAttribute("email")%>"/>
+        Email <input name="email" type="email" value="<%= (request.getParameter("email") == null) ?
+        "" : request.getParameter("email") %>"/>
         Password <input name="password" type="password"/>
         Repeat password <input name="repeatPassword" type="password"/>
         <button type="submit">Register</button>
     </form>
-    <h2>${notEquals}</h2>
-    <h2>${isEmpty}</h2>
+    <form action="/" method="get">
+        <button type="submit">Exit</button>
+    </form>
+    <h2>${error}</h2>
 </center>
 </body>
 </html>

@@ -2,10 +2,14 @@ package service.user;
 
 import model.User;
 
-import java.util.Map;
+import java.util.List;
 
 public interface UserService {
+
     Long createId();
     void addUser(User user);
-    Map<Long, User> getAll();
+    void removeUser(Long id);
+    User getByEmai(String email);
+    User getById(Long id);
+    List<User> getAll();
 }
