@@ -6,7 +6,7 @@ import model.User;
 
 import java.util.List;
 
-public class UserServiceImpl implements service.user.UserService {
+public class UserServiceImpl implements UserService {
 
     private  static UserDao userDao = UserServiceFactory.getInstance();
 
