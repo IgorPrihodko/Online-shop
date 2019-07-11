@@ -1,13 +1,13 @@
 package model;
 
-public class Article {
+public class Product {
+
     private Long id;
     private String title;
     private String description;
     private Double price;
 
-    public Article(String title, String description, Double price) {
-        this.id = null;
+    public Product(String title, String description, Double price) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -47,7 +47,7 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article{" +
+        return "Product{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

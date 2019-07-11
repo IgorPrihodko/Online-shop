@@ -2,12 +2,13 @@ package dao.user;
 
 import model.User;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDaoImpl implements UserDao {
-    private static final Map<Long, User> USERS = new HashMap<>();
-    private static Long idCounter = 1L;
+
+    private static final List<User> USERS = new ArrayList<>();
+    private static Long idCounter = 0L;
 
     @Override
     public synchronized Long createID() {
@@ -17,11 +18,40 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addUser(User user) {
         user.setId(createID());
-        USERS.put(user.getId(), user);
+        USERS.add(user);
     }
 
     @Override
-    public Map<Long, User> getAll() {
+    public void removeUser(Long id) {
+        for(User user : USERS) {
+            if (user.getId().equals(id)) {
+                USERS.remove(user);
+            }
+        }
+    }
+
+    @Override
+    public User getByEmai(String email) {
+        for(User user : USERS) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User getById(Long id) {
+        for (User user : USERS) {
+            if (user.getId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<User> getAll() {
         return USERS;
     }
 }

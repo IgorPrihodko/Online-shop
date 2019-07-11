@@ -27,6 +27,7 @@
     <input name="password" placeholder="Password" type="password"/>
     <button type="submit">Sign in</button>
   </form>
+    <h2>${error}</h2>
 </center>
 </body>
 </html>
