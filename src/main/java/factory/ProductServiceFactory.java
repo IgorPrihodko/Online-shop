@@ -1,15 +1,15 @@
 package factory;
 
-import dao.product.ProductDao;
-import dao.product.ProductDaoImpl;
+import service.product.ProductService;
+import service.product.ProductServiceImpl;
 
 public class ProductServiceFactory {
 
-    private static ProductDao instance;
+    private static ProductService instance;
 
-    public static synchronized ProductDao getInstance() {
+    public static synchronized ProductService getInstance() {
         if (instance == null) {
-            instance = new ProductDaoImpl();
+            instance = new ProductServiceImpl();
         }
         return instance;
     }

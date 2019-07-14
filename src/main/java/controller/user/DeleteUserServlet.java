@@ -1,8 +1,8 @@
 package controller.user;
 
-import dao.user.UserDao;
 import factory.UserServiceFactory;
 import model.User;
+import service.user.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,13 +14,13 @@ import java.io.IOException;
 @WebServlet(value = "/deleteUser")
 public class DeleteUserServlet extends HttpServlet {
 
-    private UserDao userDao = UserServiceFactory.getInstance();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        User user = userDao.getById(id);
+        User user = userService.getById(id);
         req.setAttribute("id", user.getId());
         req.setAttribute("email", user.getEmail());
         req.setAttribute("password", user.getPassword());
@@ -33,7 +33,7 @@ public class DeleteUserServlet extends HttpServlet {
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
         req.setAttribute("id", id);
-        userDao.removeUser(id);
+        userService.removeUser(id);
         resp.sendRedirect("/users");
     }
 }

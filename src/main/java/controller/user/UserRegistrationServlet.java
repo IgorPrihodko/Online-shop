@@ -1,8 +1,8 @@
 package controller.user;
 
-import dao.user.UserDao;
 import factory.UserServiceFactory;
 import model.User;
+import service.user.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet(value = "/register")
 public class UserRegistrationServlet extends HttpServlet {
 
-    private UserDao userDao = UserServiceFactory.getInstance();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -49,7 +49,7 @@ public class UserRegistrationServlet extends HttpServlet {
             resp.sendRedirect("/register");
         }
 
-        if (userDao.getByEmai(email) != null) {
+        if (userService.getByEmai(email) != null) {
             req.setAttribute("error", "Email already registered! Try another.");
             req.getRequestDispatcher("register.jsp").forward(req, resp);
             resp.sendRedirect("/register");
@@ -61,7 +61,7 @@ public class UserRegistrationServlet extends HttpServlet {
             resp.sendRedirect("/register");
         } else {
             User user = new User(email, password);
-            userDao.addUser(user);
+            userService.addUser(user);
             resp.sendRedirect("/users");
         }
     }

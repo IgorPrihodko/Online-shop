@@ -1,15 +1,15 @@
 package factory;
 
-import dao.user.UserDao;
-import dao.user.UserDaoImpl;
+import service.user.UserService;
+import service.user.UserServiceImpl;
 
 public class UserServiceFactory {
 
-    private static UserDao instance;
+    private static UserService instance;
 
-    public static synchronized UserDao getInstance() {
+    public static synchronized UserService getInstance() {
         if (instance == null) {
-            instance = new UserDaoImpl();
+            instance = new UserServiceImpl();
         }
         return instance;
     }

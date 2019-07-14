@@ -1,14 +1,14 @@
 package service.user;
 
 import dao.user.UserDao;
-import factory.UserServiceFactory;
+import factory.UserDaoFactory;
 import model.User;
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private  static UserDao userDao = UserServiceFactory.getInstance();
+    private  static final UserDao userDao = UserDaoFactory.getInstance();
 
     @Override
     public Long createId() {

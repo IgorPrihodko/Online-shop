@@ -1,8 +1,8 @@
 package controller.product;
 
-import dao.product.ProductDao;
 import factory.ProductServiceFactory;
 import model.Product;
+import service.product.ProductService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet(value = "/addProduct")
 public class AddProductServlet extends HttpServlet {
 
-    private ProductDao productDao = ProductServiceFactory.getInstance();
+    private static final ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -34,7 +34,7 @@ public class AddProductServlet extends HttpServlet {
         }
 
         Product product = new Product(title, description, price);
-        productDao.addProduct(product);
+        productService.addProduct(product);
         resp.sendRedirect("/products");
     }
 }

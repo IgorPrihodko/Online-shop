@@ -1,8 +1,8 @@
 package controller.product;
 
-import dao.product.ProductDao;
-import factory.ProductDaoFactory;
+import factory.ProductServiceFactory;
 import model.Product;
+import service.product.ProductService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,13 +14,14 @@ import java.io.IOException;
 @WebServlet(value = "/editProduct")
 public class EditProductServlet extends HttpServlet {
 
-    private ProductDao productDao = ProductDaoFactory.getInstance();
+    private static final ProductService productService = ProductServiceFactory.getInstance();
+    Product product;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        Product product = productDao.getById(id);
+        product = productService.getById(id);
         req.setAttribute("id", product.getId());
         req.setAttribute("title", product.getTitle());
         req.setAttribute("description", product.getDescription());
@@ -57,9 +58,9 @@ public class EditProductServlet extends HttpServlet {
             req.getRequestDispatcher("editProduct.jsp").forward(req, resp);
             resp.sendRedirect("/editProduct");
         }
-        productDao.getById(id).setTitle(title);
-        productDao.getById(id).setDescription(description);
-        productDao.getById(id).setPrice(price);
+        product.setTitle(title);
+        product.setDescription(description);
+        product.setPrice(price);
         resp.sendRedirect("/products");
     }
 }

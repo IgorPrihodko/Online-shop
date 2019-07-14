@@ -1,8 +1,8 @@
 package controller.product;
 
-import dao.product.ProductDao;
 import factory.ProductServiceFactory;
 import model.Product;
+import service.product.ProductService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,20 +15,12 @@ import java.util.List;
 @WebServlet(value = "/products")
 public class AllProductServlet extends HttpServlet {
 
-    private static final ProductDao productDao = ProductServiceFactory.getInstance();
-    private List<Product> allProducts = productDao.getAll();
-
-    public void initialProduct() {
-        if (allProducts.isEmpty()) {
-            Product initialProduct = new Product("test", "test", 0.0);
-            productDao.addProduct(initialProduct);
-        }
-    }
+    private static final ProductService productService = ProductServiceFactory.getInstance();
+    private List<Product> allProducts = productService.getAll();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        List<Product> allProducts = productDao.getAll();
         req.setAttribute("allProducts", allProducts);
         req.getRequestDispatcher("products.jsp").forward(req, resp);
     }

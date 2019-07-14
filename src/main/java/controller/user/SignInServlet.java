@@ -1,8 +1,8 @@
 package controller.user;
 
-import dao.user.UserDao;
 import factory.UserServiceFactory;
 import model.User;
+import service.user.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +14,7 @@ import java.io.IOException;
 @WebServlet(value = "/signIn")
 public class SignInServlet extends HttpServlet {
 
-    private static final UserDao userDao = UserServiceFactory.getInstance();
+    private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -41,7 +41,7 @@ public class SignInServlet extends HttpServlet {
             }
         }
 
-        for (User user : userDao.getAll()) {
+        for (User user : userService.getAll()) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                 resp.sendRedirect("/users");
                 return;

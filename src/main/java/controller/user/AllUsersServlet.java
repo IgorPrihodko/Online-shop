@@ -1,8 +1,8 @@
 package controller.user;
 
-import dao.user.UserDao;
 import factory.UserServiceFactory;
 import model.User;
+import service.user.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,15 +15,8 @@ import java.util.List;
 @WebServlet(value = "/users", loadOnStartup = 2)
 public class AllUsersServlet extends HttpServlet {
 
-    private static final UserDao userDao = UserServiceFactory.getInstance();
-    private List<User> allusers = userDao.getAll();
-
-    public void initialUser() {
-        if (allusers.isEmpty()) {
-            User initialUser = new User("test@test", "test");
-            userDao.addUser(initialUser);
-        }
-    }
+    private static final UserService userService = UserServiceFactory.getInstance();
+    private List<User> allusers = userService.getAll();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

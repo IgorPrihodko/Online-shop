@@ -1,14 +1,14 @@
 package service.product;
 
 import dao.product.ProductDao;
-import factory.ProductServiceFactory;
+import factory.ProductDaoFactory;
 import model.Product;
 
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private static ProductDao productDao = ProductServiceFactory.getInstance();
+    private static final ProductDao productDao = ProductDaoFactory.getInstance();
 
     @Override
     public Long createId() {

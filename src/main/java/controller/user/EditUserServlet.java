@@ -1,8 +1,8 @@
 package controller.user;
 
-import dao.user.UserDao;
 import factory.UserServiceFactory;
 import model.User;
+import service.user.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,13 +14,14 @@ import java.io.IOException;
 @WebServlet(value = "/editUser")
 public class EditUserServlet extends HttpServlet {
 
-    private UserDao userDao = UserServiceFactory.getInstance();
+    private static final UserService userService = UserServiceFactory.getInstance();
+    User user;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        User user = userDao.getById(id);
+        user = userService.getById(id);
         req.setAttribute("id", user.getId());
         req.setAttribute("email", user.getEmail());
         req.setAttribute("password", user.getPassword());
@@ -33,6 +34,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
+        user = userService.getById(id);
         req.setAttribute("id", id);
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -58,7 +60,7 @@ public class EditUserServlet extends HttpServlet {
             resp.sendRedirect("/editUser");
         }
 
-        if (userDao.getByEmai(email) != null) {
+        if (userService.getByEmai(email) != null) {
             req.setAttribute("error", "Email already registered! Try another.");
             req.getRequestDispatcher("editUser.jsp").forward(req, resp);
             resp.sendRedirect("/editUser");
@@ -69,8 +71,8 @@ public class EditUserServlet extends HttpServlet {
             req.getRequestDispatcher("editUser.jsp").forward(req, resp);
             resp.sendRedirect("/editUser");
         } else {
-            userDao.getById(id).setEmail(email);
-            userDao.getById(id).setPassword(password);
+            user.setEmail(email);
+            user.setPassword(password);
         }
         resp.sendRedirect("/users");
     }

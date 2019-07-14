@@ -1,12 +1,8 @@
 <%@ page import="model.User" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.util.List" %><%--
-  Created by IntelliJ IDEA.
-  User: black
-  Date: 05.07.19
-  Time: 2:31
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.List" %>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
