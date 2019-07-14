@@ -23,7 +23,7 @@ public class EditUserServlet extends HttpServlet {
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
         User user = userDao.getById(id);
-        req.setAttribute("id", user.getId());
+        req.setAttribute("id", id);
         req.setAttribute("email", user.getEmail());
         req.setAttribute("password", user.getPassword());
         req.setAttribute("repeatPassword", user.getPassword());

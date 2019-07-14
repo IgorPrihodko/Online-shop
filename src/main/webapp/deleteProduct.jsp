@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: black
-  Date: 11.07.19
-  Time: 17:40
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,14 +7,10 @@
 <body>
 <center>
     <form action="/deleteProduct" method="post">
-        ID <input name="id" type="number" value="<%=request.getAttribute("id") == null ?
-         "" : request.getAttribute("id")%>" readonly>
-        Title <input name="title" type="text" value="<%=request.getAttribute("title") == null ?
-         "" : request.getAttribute("title")%>" readonly/>
-        Description <input name="description" type="text" value="<%=request.getAttribute("description") == null ?
-         "" : request.getAttribute("description")%>" readonly/>
-        Price <input name="price" type="number" value="<%=request.getAttribute("price") == null ?
-         "" : request.getAttribute("price")%>" readonly/>
+        ID <input name="id" type="number" value="${id}" readonly>
+        Title <input name="title" type="text" value="${title}" readonly/>
+        Description <input name="description" type="text" value="${description}" readonly/>
+        Price <input name="price" type="number" value="${price}" readonly/>
         <button type="submit">Delete</button>
     </form>
     <form action="/products" method="get">
