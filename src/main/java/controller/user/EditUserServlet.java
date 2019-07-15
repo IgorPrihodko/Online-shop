@@ -15,13 +15,12 @@ import java.io.IOException;
 public class EditUserServlet extends HttpServlet {
 
     private static final UserService userService = UserServiceFactory.getInstance();
-    User user;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        user = userService.getById(id);
+        User user = userService.getById(id).get();
         req.setAttribute("id", user.getId());
         req.setAttribute("email", user.getEmail());
         req.setAttribute("password", user.getPassword());
@@ -34,7 +33,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        user = userService.getById(id);
+        User user = userService.getById(id).get();
         req.setAttribute("id", id);
         String email = req.getParameter("email");
         String password = req.getParameter("password");
@@ -60,7 +59,7 @@ public class EditUserServlet extends HttpServlet {
             resp.sendRedirect("/editUser");
         }
 
-        if (userService.getByEmai(email) != null) {
+        if (userService.getByEmail(email).isPresent()) {
             req.setAttribute("error", "Email already registered! Try another.");
             req.getRequestDispatcher("editUser.jsp").forward(req, resp);
             resp.sendRedirect("/editUser");

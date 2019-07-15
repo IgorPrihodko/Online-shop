@@ -49,7 +49,7 @@ public class UserRegistrationServlet extends HttpServlet {
             resp.sendRedirect("/register");
         }
 
-        if (userService.getByEmai(email) != null) {
+        if (userService.getByEmail(email).isPresent()) {
             req.setAttribute("error", "Email already registered! Try another.");
             req.getRequestDispatcher("register.jsp").forward(req, resp);
             resp.sendRedirect("/register");

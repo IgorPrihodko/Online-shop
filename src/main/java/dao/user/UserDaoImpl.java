@@ -4,10 +4,11 @@ import model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
-    private static final List<User> USERS = new ArrayList<>();
+    private static final List<User> users = new ArrayList<>();
     private static Long idCounter = 0L;
 
     @Override
@@ -18,40 +19,26 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void addUser(User user) {
         user.setId(createID());
-        USERS.add(user);
+        users.add(user);
     }
 
     @Override
     public void removeUser(Long id) {
-        for(User user : USERS) {
-            if (user.getId().equals(id)) {
-                USERS.remove(user);
-            }
-        }
+        users.remove(users.stream().filter(user -> user.getId().equals(id)).findFirst().get());
     }
 
     @Override
-    public User getByEmai(String email) {
-        for(User user : USERS) {
-            if (user.getEmail().equals(email)) {
-                return user;
-            }
-        }
-        return null;
+    public Optional<User> getByEmail(String email) {
+        return users.stream().filter(user -> user.getEmail().equals(email)).findFirst();
     }
 
     @Override
-    public User getById(Long id) {
-        for (User user : USERS) {
-            if (user.getId().equals(id)) {
-                return user;
-            }
-        }
-        return null;
+    public Optional<User> getById(Long id) {
+        return users.stream().filter(user -> user.getId().equals(id)).findFirst();
     }
 
     @Override
     public List<User> getAll() {
-        return USERS;
+        return users;
     }
 }

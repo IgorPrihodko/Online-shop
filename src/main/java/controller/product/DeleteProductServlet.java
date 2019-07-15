@@ -20,7 +20,7 @@ public class DeleteProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        Product product = productService.getById(id);
+        Product product = productService.getById(id).get();
         req.setAttribute("id", product.getId());
         req.setAttribute("title", product.getTitle());
         req.setAttribute("description", product.getDescription());

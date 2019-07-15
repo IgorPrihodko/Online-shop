@@ -5,10 +5,11 @@ import factory.UserDaoFactory;
 import model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
 
-    private  static final UserDao userDao = UserDaoFactory.getInstance();
+    private static final UserDao userDao = UserDaoFactory.getInstance();
 
     @Override
     public Long createId() {
@@ -26,12 +27,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByEmai(String email) {
-        return userDao.getByEmai(email);
+    public Optional<User> getByEmail(String email) {
+        return userDao.getByEmail(email);
     }
 
     @Override
-    public User getById(Long id) {
+    public Optional<User> getById(Long id) {
         return userDao.getById(id);
     }
 

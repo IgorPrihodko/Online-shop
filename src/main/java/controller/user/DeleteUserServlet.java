@@ -20,7 +20,7 @@ public class DeleteUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        User user = userService.getById(id);
+        User user = userService.getById(id).get();
         req.setAttribute("id", user.getId());
         req.setAttribute("email", user.getEmail());
         req.setAttribute("password", user.getPassword());

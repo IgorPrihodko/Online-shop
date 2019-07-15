@@ -16,12 +16,12 @@ import java.util.List;
 public class AllUsersServlet extends HttpServlet {
 
     private static final UserService userService = UserServiceFactory.getInstance();
-    private List<User> allusers = userService.getAll();
+    private List<User> allUsers = userService.getAll();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.setAttribute("allUsers", allusers);
+        req.setAttribute("allUsers", allUsers);
         req.getRequestDispatcher("users.jsp").forward(req, resp);
     }
 }

@@ -15,13 +15,12 @@ import java.io.IOException;
 public class EditProductServlet extends HttpServlet {
 
     private static final ProductService productService = ProductServiceFactory.getInstance();
-    Product product;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
-        product = productService.getById(id);
+        Product product = productService.getById(id).get();
         req.setAttribute("id", product.getId());
         req.setAttribute("title", product.getTitle());
         req.setAttribute("description", product.getDescription());
@@ -34,6 +33,7 @@ public class EditProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
+        Product product = productService.getById(id).get();
         req.setAttribute("id", id);
         String title = req.getParameter("title");
         String description = req.getParameter("description");
@@ -50,7 +50,7 @@ public class EditProductServlet extends HttpServlet {
             } else {
                 req.setAttribute("description", description);
             }
-            if (price <= 0) {
+            if (price <= 0.0) {
                 req.setAttribute("error", "Price can not be 0 or less! Try another.");
             } else {
                 req.setAttribute("price", price);
