@@ -75,7 +75,7 @@ public class EditUserServlet extends HttpServlet {
         } else {
             user.setEmail(email);
             user.setPassword(password);
-            logger.info("Edit user data " + user + " in db");
+            logger.warn("Edit user data " + user + " in db");
         }
         resp.sendRedirect("/users");
     }

@@ -23,10 +23,10 @@ public class InitServlet extends HttpServlet {
     public void init() throws ServletException {
         User user = new User("test@test", "test");
         userService.addUser(user);
-        logger.info("Add initial user " + user + " to DB");
+        logger.warn("Add initial user " + user + " to DB");
 
         Product product = new Product("test", "test", 0.0);
         productService.addProduct(product);
-        logger.info("Add new product " + product + " to DB");
+        logger.warn("Add new product " + product + " to DB");
     }
 }

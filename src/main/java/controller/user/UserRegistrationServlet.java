@@ -64,7 +64,7 @@ public class UserRegistrationServlet extends HttpServlet {
         } else {
             User user = new User(email, password);
             userService.addUser(user);
-            logger.info("Add new user " + user + " to db");
+            logger.warn("Add new user " + user + " to db");
             resp.sendRedirect("/users");
         }
     }

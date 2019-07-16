@@ -37,7 +37,7 @@ public class AddProductServlet extends HttpServlet {
 
         Product product = new Product(title, description, price);
         productService.addProduct(product);
-        logger.info("Add new product " + product + " to db");
+        logger.warn("Add new product " + product + " to db");
         resp.sendRedirect("/products");
     }
 }

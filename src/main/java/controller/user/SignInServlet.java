@@ -45,7 +45,7 @@ public class SignInServlet extends HttpServlet {
 
         for (User user : userService.getAll()) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                logger.info("Sign in user " + user);
+                logger.warn("Sign in user " + user);
                 resp.sendRedirect("/users");
                 return;
             }

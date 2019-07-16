@@ -38,7 +38,7 @@ public class DeleteProductServlet extends HttpServlet {
         Product product = productService.getById(id).get();
         req.setAttribute("id", id);
         productService.removeProduct(id);
-        logger.info("Delete product " + product + " from db");
+        logger.warn("Delete product " + product + " from db");
         resp.sendRedirect("/products");
     }
 }

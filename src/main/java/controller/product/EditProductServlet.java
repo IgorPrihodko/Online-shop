@@ -63,7 +63,7 @@ public class EditProductServlet extends HttpServlet {
         product.setTitle(title);
         product.setDescription(description);
         product.setPrice(price);
-        logger.info("Edit product " + product + " in db");
+        logger.warn("Edit product " + product + " in db");
         resp.sendRedirect("/products");
     }
 }

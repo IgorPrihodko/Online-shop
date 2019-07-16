@@ -37,7 +37,7 @@ public class DeleteUserServlet extends HttpServlet {
         User user = userService.getById(id).get();
         req.setAttribute("id", id);
         userService.removeUser(id);
-        logger.info("Delete user " + user + " from db");
+        logger.warn("Delete user " + user + " from db");
         resp.sendRedirect("/users");
     }
 }
