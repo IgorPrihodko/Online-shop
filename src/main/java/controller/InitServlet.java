@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-@WebServlet(value = "/admin/*", loadOnStartup = 0)
+@WebServlet(value = "/", loadOnStartup = 0)
 public class InitServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(InitServlet.class);

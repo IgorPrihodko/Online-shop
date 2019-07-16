@@ -21,12 +21,6 @@ public class SignInServlet extends HttpServlet {
     private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        req.getRequestDispatcher("/users.jsp").forward(req, resp);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String email = req.getParameter("email");
@@ -50,11 +44,13 @@ public class SignInServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("user", optionalUser.get());
             logger.warn("Sign in user " + optionalUser.get());
+            req.setAttribute("allUsers", userService.getAll());
             req.getRequestDispatcher("/users.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/users");
         }
 
         req.setAttribute("error", "Wrong email or password");
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+        req.getRequestDispatcher("index.jsp").forward(req, resp);
         resp.sendRedirect("/");
     }
 }
