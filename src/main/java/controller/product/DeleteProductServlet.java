@@ -2,6 +2,7 @@ package controller.product;
 
 import factory.ProductServiceFactory;
 import model.Product;
+import org.apache.log4j.Logger;
 import service.product.ProductService;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/deleteProduct")
 public class DeleteProductServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(DeleteProductServlet.class);
     private static final ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
@@ -33,8 +35,10 @@ public class DeleteProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
+        Product product = productService.getById(id).get();
         req.setAttribute("id", id);
         productService.removeProduct(id);
+        logger.info("Delete product " + product + " from db");
         resp.sendRedirect("/products");
     }
 }

@@ -2,6 +2,7 @@ package controller.product;
 
 import factory.ProductServiceFactory;
 import model.Product;
+import org.apache.log4j.Logger;
 import service.product.ProductService;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/editProduct")
 public class EditProductServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(EditProductServlet.class);
     private static final ProductService productService = ProductServiceFactory.getInstance();
 
     @Override
@@ -61,6 +63,7 @@ public class EditProductServlet extends HttpServlet {
         product.setTitle(title);
         product.setDescription(description);
         product.setPrice(price);
+        logger.info("Edit product " + product + " in db");
         resp.sendRedirect("/products");
     }
 }

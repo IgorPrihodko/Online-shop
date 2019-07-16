@@ -6,18 +6,15 @@
 </head>
 <body>
 <center>
-<form action="/deleteUser" method="post">
-    ID <input name="id" type="number" value="<%=request.getAttribute("id") == null ?
-         "" : request.getAttribute("id")%>" readonly>
-    Email <input name="email" type="email" value="<%=request.getAttribute("email") == null ?
-         "" : request.getAttribute("email")%>" readonly/>
-    Password <input name="password" type="password" value="<%=request.getAttribute("password") == null ?
-         "" : request.getAttribute("password")%>" readonly/>
-    <button type="submit">Delete</button>
-</form>
-<form action="/users" method="get">
-    <button type="submit">Back</button>
-</form>
+    <form action="/deleteUser" method="post">
+        ID <input name="id" type="number" value="${id}" readonly>
+        Email <input name="email" type="email" value="${email}" readonly/>
+        Password <input name="password" type="password" value="${password}" readonly/>
+        <button type="submit">Delete</button>
+    </form>
+    <form action="/users" method="get">
+        <button type="submit">Back</button>
+    </form>
 </center>
 </body>
 </html>

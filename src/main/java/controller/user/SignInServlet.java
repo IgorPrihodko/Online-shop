@@ -2,6 +2,7 @@ package controller.user;
 
 import factory.UserServiceFactory;
 import model.User;
+import org.apache.log4j.Logger;
 import service.user.UserService;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/signIn")
 public class SignInServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(SignInServlet.class);
     private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
@@ -43,6 +45,7 @@ public class SignInServlet extends HttpServlet {
 
         for (User user : userService.getAll()) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                logger.info("Sign in user " + user);
                 resp.sendRedirect("/users");
                 return;
             }

@@ -2,6 +2,7 @@ package controller.user;
 
 import factory.UserServiceFactory;
 import model.User;
+import org.apache.log4j.Logger;
 import service.user.UserService;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/editUser")
 public class EditUserServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(EditUserServlet.class);
     private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
@@ -59,7 +61,8 @@ public class EditUserServlet extends HttpServlet {
             resp.sendRedirect("/editUser");
         }
 
-        if (userService.getByEmail(email).isPresent()) {
+        if (userService.getByEmail(email).isPresent()
+                && !user.getEmail().equals(email)) {
             req.setAttribute("error", "Email already registered! Try another.");
             req.getRequestDispatcher("editUser.jsp").forward(req, resp);
             resp.sendRedirect("/editUser");
@@ -72,6 +75,7 @@ public class EditUserServlet extends HttpServlet {
         } else {
             user.setEmail(email);
             user.setPassword(password);
+            logger.info("Edit user data " + user + " in db");
         }
         resp.sendRedirect("/users");
     }
