@@ -6,15 +6,17 @@
 </head>
 <body>
 <center>
-    <form action="/editUser" method="post">
+    <form action="/admin/editUser" method="post">
         ID <input name="id" type="number" value="${id}" readonly>
         Email <input name="email" type="email" value="${email}"/>
-        Password <input name="password" type="password" value="${password}"/>
+        Password <input name="password" type="password"/>
         Repeat password <input name="repeatPassword" type="password"/>
+        Admin <input name="role" type="radio" value="admin"/>
+        User <input name="role" type="radio" value="user"/>
         <button type="submit">Edit</button>
     </form>
     <h2>${error}</h2>
-    <form action="/users" method="get">
+    <form action="/admin/users" method="get">
         <button type="submit">Back</button>
     </form>
 </center>

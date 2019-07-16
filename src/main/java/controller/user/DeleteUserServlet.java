@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/deleteUser")
+@WebServlet(value = "/admin/deleteUser")
 public class DeleteUserServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(DeleteUserServlet.class);
@@ -26,8 +26,9 @@ public class DeleteUserServlet extends HttpServlet {
         req.setAttribute("id", user.getId());
         req.setAttribute("email", user.getEmail());
         req.setAttribute("password", user.getPassword());
-        req.getRequestDispatcher("deleteUser.jsp").forward(req, resp);
-        resp.sendRedirect("/deleteUser");
+        req.setAttribute("role", user.getRole());
+        req.getRequestDispatcher("/deleteUser.jsp").forward(req, resp);
+        resp.sendRedirect("/admin/deleteUser");
     }
 
     @Override
@@ -38,6 +39,6 @@ public class DeleteUserServlet extends HttpServlet {
         req.setAttribute("id", id);
         userService.removeUser(id);
         logger.warn("Delete user " + user + " from db");
-        resp.sendRedirect("/users");
+        resp.sendRedirect("/admin/users");
     }
 }

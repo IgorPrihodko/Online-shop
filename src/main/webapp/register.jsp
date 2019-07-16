@@ -6,10 +6,12 @@
 </head>
 <body>
 <center>
-    <form action="/register" method="post">
+    <form action="/admin/register" method="post">
         Email <input name="email" type="email" value="${email}"/>
         Password <input name="password" type="password"/>
         Repeat password <input name="repeatPassword" type="password"/>
+        Admin <input name="role" type="radio" value="admin"/>
+        User <input name="role" type="radio" value="user"/>
         <button type="submit">Register</button>
     </form>
     <form action="/" method="get">

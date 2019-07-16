@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
-@WebServlet(value = "/", loadOnStartup = 0)
+@WebServlet(value = "/admin/*", loadOnStartup = 0)
 public class InitServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(InitServlet.class);
@@ -21,7 +21,7 @@ public class InitServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        User user = new User("test@test", "test");
+        User user = new User("test@test", "test", "admin");
         userService.addUser(user);
         logger.warn("Add initial user " + user + " to DB");
 

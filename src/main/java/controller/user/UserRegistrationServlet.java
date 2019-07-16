@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/register")
+@WebServlet(value = "/admin/register")
 public class UserRegistrationServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(UserRegistrationServlet.class);
@@ -21,7 +21,7 @@ public class UserRegistrationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("register.jsp").forward(req, resp);
+        req.getRequestDispatcher("/register.jsp").forward(req, resp);
     }
 
     @Override
@@ -30,6 +30,7 @@ public class UserRegistrationServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("repeatPassword");
+        String role = req.getParameter("role");
 
         if (email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
             if (email.isEmpty()) {
@@ -47,25 +48,25 @@ public class UserRegistrationServlet extends HttpServlet {
             } else {
                 req.setAttribute("repeatPassword", repeatPassword);
             }
-            req.getRequestDispatcher("register.jsp").forward(req, resp);
-            resp.sendRedirect("/register");
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/register");
         }
 
         if (userService.getByEmail(email).isPresent()) {
             req.setAttribute("error", "Email already registered! Try another.");
-            req.getRequestDispatcher("register.jsp").forward(req, resp);
-            resp.sendRedirect("/register");
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/register");
         }
 
         if (!repeatPassword.equals(password)) {
             req.setAttribute("error", "Your passwords are not equals! Try better.");
-            req.getRequestDispatcher("register.jsp").forward(req, resp);
-            resp.sendRedirect("/register");
+            req.getRequestDispatcher("/register.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/register");
         } else {
-            User user = new User(email, password);
+            User user = new User(email, password, role);
             userService.addUser(user);
             logger.warn("Add new user " + user + " to db");
-            resp.sendRedirect("/users");
+            resp.sendRedirect("/admin/users");
         }
     }
 }

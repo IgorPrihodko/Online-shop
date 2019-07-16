@@ -9,10 +9,6 @@
     Welcome to this online-Store!
   </center>
   <center>
-    You can register here --->
-    <a href="/register">Registration</a>
-  </center>
-  <center>
   <center>
     Or you can signing in
   </center>

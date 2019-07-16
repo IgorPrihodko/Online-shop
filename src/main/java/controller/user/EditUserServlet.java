@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/editUser")
+@WebServlet(value = "/admin/editUser")
 public class EditUserServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(EditUserServlet.class);
@@ -27,8 +27,9 @@ public class EditUserServlet extends HttpServlet {
         req.setAttribute("email", user.getEmail());
         req.setAttribute("password", user.getPassword());
         req.setAttribute("repeatPassword", user.getPassword());
-        req.getRequestDispatcher("editUser.jsp").forward(req, resp);
-        resp.sendRedirect("/editUser");
+        req.setAttribute("role", user.getRole());
+        req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+        resp.sendRedirect("/admin/editUser");
     }
 
     @Override
@@ -40,6 +41,7 @@ public class EditUserServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("repeatPassword");
+        String role = req.getParameter("role");
 
         if (email.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
             if (email.isEmpty()) {
@@ -57,26 +59,27 @@ public class EditUserServlet extends HttpServlet {
             } else {
                 req.setAttribute("repeatPassword", repeatPassword);
             }
-            req.getRequestDispatcher("editUser.jsp").forward(req, resp);
-            resp.sendRedirect("/editUser");
+            req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/editUser");
         }
 
         if (userService.getByEmail(email).isPresent()
                 && !user.getEmail().equals(email)) {
             req.setAttribute("error", "Email already registered! Try another.");
-            req.getRequestDispatcher("editUser.jsp").forward(req, resp);
-            resp.sendRedirect("/editUser");
+            req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/editUser");
         }
         if (!repeatPassword.equals(password)) {
             req.setAttribute("error", "Your passwords are not equals! Try better.");
             req.setAttribute("email", req.getParameter("email"));
-            req.getRequestDispatcher("editUser.jsp").forward(req, resp);
-            resp.sendRedirect("/editUser");
+            req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/editUser");
         } else {
             user.setEmail(email);
             user.setPassword(password);
+            user.setRole(role);
             logger.warn("Edit user data " + user + " in db");
         }
-        resp.sendRedirect("/users");
+        resp.sendRedirect("/admin/users");
     }
 }
