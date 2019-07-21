@@ -1,4 +1,4 @@
-package controller.product;
+package controller.user;
 
 import factory.ProductServiceFactory;
 import model.Product;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = "/products")
-public class AllProductServlet extends HttpServlet {
+@WebServlet(value = "/user/products")
+public class ProductForUsersServlet extends HttpServlet {
 
     private static final ProductService productService = ProductServiceFactory.getInstance();
     private List<Product> allProducts = productService.getAll();
@@ -22,6 +22,6 @@ public class AllProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         req.setAttribute("allProducts", allProducts);
-        req.getRequestDispatcher("products.jsp").forward(req, resp);
+        req.getRequestDispatcher("/products_for_users.jsp").forward(req, resp);
     }
 }

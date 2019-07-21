@@ -1,4 +1,4 @@
-package controller.user;
+package controller.admin;
 
 import factory.UserServiceFactory;
 import model.User;
@@ -12,21 +12,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/admin/register")
-public class UserRegistrationServlet extends HttpServlet {
+@WebServlet(value = "/admin/editUser")
+public class EditUserServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(UserRegistrationServlet.class);
+    private static final Logger logger = Logger.getLogger(EditUserServlet.class);
     private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("/register.jsp").forward(req, resp);
+        Long id = Long.valueOf(req.getParameter("id"));
+        User user = userService.getById(id).get();
+        req.setAttribute("id", user.getId());
+        req.setAttribute("email", user.getEmail());
+        req.setAttribute("password", user.getPassword());
+        req.setAttribute("repeatPassword", user.getPassword());
+        req.setAttribute("role", user.getRole());
+        req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+        resp.sendRedirect("/admin/editUser");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        Long id = Long.valueOf(req.getParameter("id"));
+        User user = userService.getById(id).get();
+        req.setAttribute("id", id);
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("repeatPassword");
@@ -48,25 +59,27 @@ public class UserRegistrationServlet extends HttpServlet {
             } else {
                 req.setAttribute("repeatPassword", repeatPassword);
             }
-            req.getRequestDispatcher("/register.jsp").forward(req, resp);
-            resp.sendRedirect("/admin/register");
+            req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/editUser");
         }
 
-        if (userService.getByEmail(email).isPresent()) {
+        if (userService.getByEmail(email).isPresent()
+                && !user.getEmail().equals(email)) {
             req.setAttribute("error", "Email already registered! Try another.");
-            req.getRequestDispatcher("/register.jsp").forward(req, resp);
-            resp.sendRedirect("/admin/register");
+            req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/editUser");
         }
-
         if (!repeatPassword.equals(password)) {
             req.setAttribute("error", "Your passwords are not equals! Try better.");
-            req.getRequestDispatcher("/register.jsp").forward(req, resp);
-            resp.sendRedirect("/admin/register");
+            req.setAttribute("email", req.getParameter("email"));
+            req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/editUser");
         } else {
-            User user = new User(email, password, role);
-            userService.addUser(user);
-            logger.warn("Add new user " + user + " to db");
-            resp.sendRedirect("/admin/users");
+            user.setEmail(email);
+            user.setPassword(password);
+            user.setRole(role);
+            logger.warn("Edit user data " + user + " in db");
         }
+        resp.sendRedirect("/admin/users");
     }
 }

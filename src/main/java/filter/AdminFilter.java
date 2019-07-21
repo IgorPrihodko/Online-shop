@@ -36,7 +36,5 @@ public class AdminFilter implements Filter {
 
     @Override
     public void init(FilterConfig config) throws ServletException {
-
     }
-
 }

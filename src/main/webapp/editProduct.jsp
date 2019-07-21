@@ -6,7 +6,7 @@
 </head>
 <body>
 <center>
-    <form action="/editProduct" method="post">
+    <form action="/admin/editProduct" method="post">
         ID <input name="id" type="number" value="${id}" readonly/>
         Title <input name="title" type="text" value="${title}"/>
         Description <input name="description" type="text" value="${description}"/>
@@ -14,7 +14,7 @@
         <button type="submit">Edit</button>
     </form>
     <h2>${error}</h2>
-    <form action="/products" method="get">
+    <form action="/admin/products" method="get">
         <button type="submit">Back</button>
     </form>
 </center>
