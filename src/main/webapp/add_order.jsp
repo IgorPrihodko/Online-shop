@@ -20,8 +20,8 @@
         <button type="submit">Send confirmation code to email</button>
     </form>
     <h2>${error}</h2>
-    <form action="/user/basket" method="get">
-        <button type="submit">Back to basket</button>
+    <form action="/user/basketID" method="get">
+        <button type="submit">Back to basketID</button>
     </form>
 </div>
 </body>

@@ -6,24 +6,47 @@ import java.util.List;
 
 public class Basket {
 
+    private Long id;
+    private Long userID;
+    private Long orderID;
     private List<Product> productsInBasket = new ArrayList<>();
     private BigDecimal totalPrice;
     private ConfirmationCode confirmationCode;
 
-    public void addProductToBusket(Product product) {
-        productsInBasket.add(product);
+    public Basket(Long userID) {
+        this.userID = userID;
     }
 
-    public BigDecimal countTotalPrice() {
-        totalPrice = BigDecimal.valueOf(0.0);
-        for (Product product : productsInBasket) {
-            totalPrice = totalPrice.add(product.getPrice());
-        }
-        return totalPrice;
+    public void addProductToBasket(Product product) {
+        productsInBasket.add(product);
     }
 
     public void deleteProductFromBasket(Product product) {
         productsInBasket.remove(product);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
+    public Long getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(Long orderID) {
+        this.orderID = orderID;
     }
 
     public List<Product> getProductsInBasket() {
@@ -48,5 +71,17 @@ public class Basket {
 
     public void setConfirmationCode(ConfirmationCode confirmationCode) {
         this.confirmationCode = confirmationCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Basket{" +
+                "id=" + id +
+                ", userID=" + userID +
+                ", orderID=" + orderID +
+                ", productsInBasket=" + productsInBasket +
+                ", totalPrice=" + totalPrice +
+                ", confirmationCode=" + confirmationCode +
+                '}';
     }
 }

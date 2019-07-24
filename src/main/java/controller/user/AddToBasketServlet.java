@@ -5,6 +5,7 @@ import model.Basket;
 import model.Product;
 import model.User;
 import service.product.ProductService;
+import utils.TotalPriceCounter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,10 +23,11 @@ public class AddToBasketServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         User userFromSession = (User) req.getSession().getAttribute("user");
-        Basket basket = userFromSession.getBasket();
-        basket.countTotalPrice();
-        req.setAttribute("totalPrice", basket.getTotalPrice());
-        req.setAttribute("basket", basket.getProductsInBasket());
+        Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
+        basketFromSession.setUserID(userFromSession.getId());
+        basketFromSession.setTotalPrice(TotalPriceCounter.count(basketFromSession));
+        req.setAttribute("totalPrice", basketFromSession.getTotalPrice());
+        req.setAttribute("basket", basketFromSession.getProductsInBasket());
         req.getRequestDispatcher("/basket.jsp").forward(req, resp);
     }
 
@@ -36,10 +38,10 @@ public class AddToBasketServlet extends HttpServlet {
         Product product = productService.getById(id).get();
         req.setAttribute("id", id);
         User userFromSession = (User) req.getSession().getAttribute("user");
-        Basket basket = userFromSession.getBasket();
-        basket.addProductToBusket(product);
-        basket.setTotalPrice(basket.countTotalPrice());
-        userFromSession.setBasket(basket);
+        Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
+        basketFromSession.setUserID(userFromSession.getId());
+        basketFromSession.addProductToBasket(product);
+        basketFromSession.setTotalPrice(TotalPriceCounter.count(basketFromSession));
         req.setAttribute("allProducts", productService.getAll());
         req.getRequestDispatcher("/products_for_users.jsp").forward(req, resp);
         resp.sendRedirect("/user/products");

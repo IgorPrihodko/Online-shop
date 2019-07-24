@@ -4,15 +4,15 @@ public class Order {
 
     private Long id;
     private Long userID;
-    private Basket basket;
+    private Long basketID;
     private String userEmail;
     private String name;
     private String surname;
     private String address;
 
-    public Order(Long userID, Basket basket, String userEmail) {
+    public Order(Long userID, Long basketID, String userEmail) {
         this.userID = userID;
-        this.basket = basket;
+        this.basketID = basketID;
         this.userEmail = userEmail;
     }
 
@@ -32,12 +32,12 @@ public class Order {
         this.userID = userID;
     }
 
-    public Basket getBasket() {
-        return basket;
+    public Long getBasketID() {
+        return basketID;
     }
 
-    public void setBasket(Basket basket) {
-        this.basket = basket;
+    public void setBasketID(Long basketID) {
+        this.basketID = basketID;
     }
 
     public String getUserEmail() {
@@ -81,7 +81,7 @@ public class Order {
 
         if (id != null ? !id.equals(order.id) : order.id != null) return false;
         if (userID != null ? !userID.equals(order.userID) : order.userID != null) return false;
-        if (basket != null ? !basket.equals(order.basket) : order.basket != null) return false;
+        if (basketID != null ? !basketID.equals(order.basketID) : order.basketID != null) return false;
         if (userEmail != null ? !userEmail.equals(order.userEmail) : order.userEmail != null)
             return false;
         if (name != null ? !name.equals(order.name) : order.name != null) return false;
@@ -93,7 +93,7 @@ public class Order {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (userID != null ? userID.hashCode() : 0);
-        result = 31 * result + (basket != null ? basket.hashCode() : 0);
+        result = 31 * result + (basketID != null ? basketID.hashCode() : 0);
         result = 31 * result + (userEmail != null ? userEmail.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
@@ -106,7 +106,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", userID=" + userID +
-                ", basket=" + basket +
+                ", basketID=" + basketID +
                 ", userEmail='" + userEmail + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +

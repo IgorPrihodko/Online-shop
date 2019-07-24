@@ -16,11 +16,11 @@ import java.util.List;
 public class ProductForUsersServlet extends HttpServlet {
 
     private static final ProductService productService = ProductServiceFactory.getInstance();
-    private List<Product> allProducts = productService.getAll();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        List<Product> allProducts = productService.getAll();
         req.setAttribute("allProducts", allProducts);
         req.getRequestDispatcher("/products_for_users.jsp").forward(req, resp);
     }

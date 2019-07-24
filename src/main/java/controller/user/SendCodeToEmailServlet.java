@@ -23,22 +23,23 @@ public class SendCodeToEmailServlet extends HttpServlet {
         User userFromSession = (User) req.getSession().getAttribute("user");
         Long id = userFromSession.getId();
         String userEmail = userFromSession.getEmail();
-        Basket basket = userFromSession.getBasket();
-        if (basket.getConfirmationCode() != null) {
+        Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
+        if (basketFromSession.getConfirmationCode() != null) {
             req.setAttribute("error",
                     "Confirmation code has already sent to your email. Check it please!");
             req.getRequestDispatcher("/add_order.jsp").forward(req, resp);
             resp.sendRedirect("/user/order");
         }
+        ConfirmationCode confirmationCode = new ConfirmationCode(userEmail);
         String code = ConfirmCodeGenerator.generateCode();
-        ConfirmationCode confirmationCode = new ConfirmationCode(code, userEmail);
+        confirmationCode.setCode(code);
         MailService mailService = new MailServiceImpl();
         mailService.sendConfirmCode(confirmationCode);
-        basket.setConfirmationCode(confirmationCode);
+        basketFromSession.setConfirmationCode(confirmationCode);
 
         req.setAttribute("userID", id);
         req.setAttribute("userEmail", userEmail);
-        req.setAttribute("totalPrice", basket.getTotalPrice());
+        req.setAttribute("totalPrice", basketFromSession.getTotalPrice());
         req.getRequestDispatcher("/add_order.jsp").forward(req, resp);
         resp.sendRedirect("/user/order");
     }

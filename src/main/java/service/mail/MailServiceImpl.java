@@ -1,6 +1,7 @@
 package service.mail;
 
 import model.ConfirmationCode;
+import org.apache.log4j.Logger;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -13,6 +14,8 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class MailServiceImpl implements MailService {
+
+    Logger logger = Logger.getLogger(MailServiceImpl.class);
 
     @Override
     public void sendConfirmCode(ConfirmationCode code) {
@@ -44,11 +47,8 @@ public class MailServiceImpl implements MailService {
             message.setText("Enter this code - [" + code.getCode() + "] for confirmation");
 
             Transport.send(message);
-
-            System.out.println("Done");
-
         } catch (MessagingException e) {
-            e.printStackTrace();
+            logger.error("Send message was falling", e);
         }
     }
 }

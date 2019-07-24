@@ -21,20 +21,21 @@ public class InitServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        User user = new User("test@test", "test", "admin");
-        User user1 = new User("111@111", "111", "user");
-        User user2 = new User("igorprihodkoemail@gmail.com", "111", "user");
-        userService.addUser(user);
-        userService.addUser(user1);
-        userService.addUser(user2);
-        logger.warn("Add initial user " + user + " to DB");
+        User userFirstTest = new User("test@test", "test", "admin");
+        User userSecondTest = new User("igorprihodkoemail@gmail.com",
+                "111", "user");
+        userService.addUser(userFirstTest);
+        logger.warn("Add initial user with ADMIN role " + userFirstTest + " to DB");
+        userService.addUser(userSecondTest);
+        logger.warn("Add initial user with USER role " + userSecondTest + " to DB");
 
-        Product product = new Product("test", "test", 0.0);
-        Product product1 = new Product("test1", "test1", 0.1);
-        Product product2 = new Product("test2", "test2", 0.4);
-        productService.addProduct(product);
-        productService.addProduct(product1);
-        productService.addProduct(product2);
-        logger.warn("Add new product " + product + " to DB");
+        Product testProductFirst= new Product("testProductFirst", "test",
+                0.1);
+        Product testProductSecond = new Product("testProductSecond", "test",
+                0.4);
+        productService.addProduct(testProductFirst);
+        logger.warn("Add new product " + testProductFirst + " to DB");
+        productService.addProduct(testProductSecond);
+        logger.warn("Add new product " + testProductSecond + " to DB");
     }
 }

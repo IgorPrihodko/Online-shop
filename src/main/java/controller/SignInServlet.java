@@ -1,6 +1,7 @@
 package controller;
 
 import factory.UserServiceFactory;
+import model.Basket;
 import model.User;
 import org.apache.log4j.Logger;
 import service.user.UserService;
@@ -48,6 +49,8 @@ public class SignInServlet extends HttpServlet {
                 req.setAttribute("allUsers", userService.getAll());
                 req.getRequestDispatcher("/users.jsp").forward(req, resp);
             } else {
+                Basket basket = new Basket(optionalUser.get().getId());
+                session.setAttribute("basket", basket);
                 req.getRequestDispatcher("/account.jsp").forward(req, resp);
             }
         }

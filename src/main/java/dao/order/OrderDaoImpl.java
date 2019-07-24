@@ -1,17 +1,15 @@
 package dao.order;
 
-import factory.UserServiceFactory;
 import model.Order;
 import org.apache.log4j.Logger;
-import service.user.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class OrderDaoImpl implements OrderDao {
 
-    private static final UserService userService = UserServiceFactory.getInstance();
     private static final Logger logger = Logger.getLogger(OrderDaoImpl.class);
     private static final List<Order> orders = new ArrayList<>();
     private static Long idCounter = 1L;
@@ -47,6 +45,9 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getAllByUser(Long userID) {
-        return userService.getById(userID).get().getOrders();
+        return orders
+                .stream()
+                .filter(order -> order.getUserID().equals(userID))
+                .collect(Collectors.toList());
     }
 }
