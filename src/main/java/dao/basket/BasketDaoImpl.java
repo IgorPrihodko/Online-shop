@@ -1,7 +1,9 @@
 package dao.basket;
 
 import model.Basket;
+import model.User;
 import org.apache.log4j.Logger;
+import utils.IDCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +14,12 @@ public class BasketDaoImpl implements BasketDao {
 
     private static final Logger logger = Logger.getLogger(BasketDaoImpl.class);
     private static final List<Basket> baskets = new ArrayList<>();
-    private static Long idCounter = 1L;
-
-    @Override
-    public synchronized Long createID() {
-        logger.info("Increment id counter for basket");
-        return idCounter++;
-    }
+    private static Long idCounter = 0L;
 
     @Override
     public void addBasket(Basket basket) {
-        basket.setId(createID());
+        basket.setId(IDCreator.create(idCounter));
+        idCounter++;
         baskets.add(basket);
         logger.info("Add basket " + basket + " to db");
     }
@@ -34,20 +31,22 @@ public class BasketDaoImpl implements BasketDao {
     }
 
     @Override
-    public Optional<Basket> getById(Long id) {
-        return baskets.stream().filter(basket -> basket.getId().equals(id)).findFirst();
+    public void addProductsToBasket(Basket basket) {
+        addBasket(basket);
     }
 
     @Override
-    public List<Basket> getAll() {
-        return baskets;
+    public Optional<Basket> getLastBasketForUser(User user) {
+        return baskets.stream()
+                .filter(basket -> basket.getUserID().equals(user.getId()))
+                .max((o1, o2) -> (int) (o2.getId() - o1.getId()));
     }
 
     @Override
-    public List<Basket> getAllByUser(Long userID) {
+    public List<Basket> getAllByUser(User user) {
         return baskets
                 .stream()
-                .filter(basket -> basket.getUserID().equals(userID))
+                .filter(basket -> basket.getUserID().equals(user.getId()))
                 .collect(Collectors.toList());
     }
 }

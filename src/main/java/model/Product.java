@@ -9,10 +9,17 @@ public class Product {
     private String description;
     private BigDecimal price;
 
-    public Product(String title, String description, Double price) {
+    public Product(Long id, String title, String description, BigDecimal price) {
+        this.id = id;
         this.title = title;
         this.description = description;
-        this.price = BigDecimal.valueOf(price);
+        this.price = price;
+    }
+
+    public Product(String title, String description, BigDecimal price) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
     }
 
     public Long getId() {
@@ -43,8 +50,32 @@ public class Product {
         return price;
     }
 
-    public void setPrice(Double price) {
-        this.price = BigDecimal.valueOf(price);
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (id != null ? !id.equals(product.id) : product.id != null) return false;
+        if (title != null ? !title.equals(product.title) : product.title != null) return false;
+        if (description != null ? !description.equals(product.description) :
+                product.description != null)
+            return false;
+        return price != null ? price.equals(product.price) : product.price == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        return result;
     }
 
     @Override

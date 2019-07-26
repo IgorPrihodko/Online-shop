@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet(value = "/admin/editProduct")
 public class EditProductServlet extends HttpServlet {
@@ -39,9 +40,9 @@ public class EditProductServlet extends HttpServlet {
         req.setAttribute("id", id);
         String title = req.getParameter("title");
         String description = req.getParameter("description");
-        Double price = Double.valueOf(req.getParameter("price"));
+        BigDecimal price = BigDecimal.valueOf(Double.parseDouble(req.getParameter("price")));
 
-        if (title.isEmpty() || description.isEmpty() || price <= 0) {
+        if (title.isEmpty() || description.isEmpty() || price.compareTo(BigDecimal.ZERO) <= 0) {
             if (title.isEmpty()) {
                 req.setAttribute("error", "Title can not be empty! Try another.");
             } else {
@@ -52,7 +53,7 @@ public class EditProductServlet extends HttpServlet {
             } else {
                 req.setAttribute("description", description);
             }
-            if (price <= 0.0) {
+            if (price.compareTo(BigDecimal.ZERO) <= 0) {
                 req.setAttribute("error", "Price can not be 0 or less! Try another.");
             } else {
                 req.setAttribute("price", price);
@@ -63,6 +64,7 @@ public class EditProductServlet extends HttpServlet {
         product.setTitle(title);
         product.setDescription(description);
         product.setPrice(price);
+        productService.updateProduct(id, product);
         logger.warn("Edit product " + product + " in db");
         resp.sendRedirect("/admin/products");
     }

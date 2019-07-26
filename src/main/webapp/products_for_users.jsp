@@ -19,7 +19,7 @@
         <td>Title</td>
         <td>Description</td>
         <td>Price</td>
-        <td>To basketID</td>
+        <td>To basket</td>
     </tr>
     <c:forEach var="product" items="${allProducts}">
         <tr>

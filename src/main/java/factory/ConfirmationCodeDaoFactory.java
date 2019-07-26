@@ -1,7 +1,7 @@
 package factory;
 
 import dao.code.ConfirmationCodeDao;
-import dao.code.ConfirmationCodeDaoImpl;
+import dao.code.ConfirmationCodeDaoJDBC;
 
 public class ConfirmationCodeDaoFactory {
 
@@ -9,7 +9,7 @@ public class ConfirmationCodeDaoFactory {
 
     public static synchronized ConfirmationCodeDao getInstance() {
         if (instance == null) {
-            instance = new ConfirmationCodeDaoImpl();
+            instance = new ConfirmationCodeDaoJDBC();
         }
         return instance;
     }

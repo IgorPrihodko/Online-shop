@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface UserDao {
 
-    Long createID();
-
     void addUser(User user);
 
     void removeUser(Long id);
+
+    void updateUser(Long id, User user);
 
     Optional<User> getByEmail(String email);
 

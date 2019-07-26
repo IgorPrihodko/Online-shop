@@ -11,6 +11,7 @@ import service.user.UserService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import java.math.BigDecimal;
 
 @WebServlet(value = "/", loadOnStartup = 0)
 public class InitServlet extends HttpServlet {
@@ -21,21 +22,24 @@ public class InitServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        User userFirstTest = new User("test@test", "test", "admin");
-        User userSecondTest = new User("igorprihodkoemail@gmail.com",
-                "111", "user");
-        userService.addUser(userFirstTest);
-        logger.warn("Add initial user with ADMIN role " + userFirstTest + " to DB");
-        userService.addUser(userSecondTest);
-        logger.warn("Add initial user with USER role " + userSecondTest + " to DB");
-
-        Product testProductFirst= new Product("testProductFirst", "test",
-                0.1);
-        Product testProductSecond = new Product("testProductSecond", "test",
-                0.4);
-        productService.addProduct(testProductFirst);
-        logger.warn("Add new product " + testProductFirst + " to DB");
-        productService.addProduct(testProductSecond);
-        logger.warn("Add new product " + testProductSecond + " to DB");
+        if (userService.getAll().isEmpty()) {
+            User firstUserTest = new User("test@test", "test", "admin");
+            User secondUserTest = new User("igorprihodkoemail@gmail.com",
+                    "111", "user");
+            userService.addUser(firstUserTest);
+            logger.info("Add initial user with ADMIN role " + firstUserTest + " to DB");
+            userService.addUser(secondUserTest);
+            logger.info("Add initial user with USER role " + secondUserTest + " to DB");
+        }
+        if (productService.getAll().isEmpty()) {
+            Product firstProductTest = new Product("firstProductTest", "test",
+                    BigDecimal.valueOf(0.1));
+            Product secondProductTest = new Product("secondProductTest", "test",
+                    BigDecimal.valueOf(0.4));
+            productService.addProduct(firstProductTest);
+            logger.info("Add new product " + firstProductTest + " to DB");
+            productService.addProduct(secondProductTest);
+            logger.info("Add new product " + secondProductTest + " to DB");
+        }
     }
 }

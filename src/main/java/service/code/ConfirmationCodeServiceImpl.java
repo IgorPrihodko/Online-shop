@@ -3,18 +3,14 @@ package service.code;
 import dao.code.ConfirmationCodeDao;
 import factory.ConfirmationCodeDaoFactory;
 import model.ConfirmationCode;
+import model.User;
 
-import java.util.List;
 import java.util.Optional;
 
 public class ConfirmationCodeServiceImpl implements ConfirmationCodeService {
 
-    private static final ConfirmationCodeDao confirmationCodeDao = ConfirmationCodeDaoFactory.getInstance();
-
-    @Override
-    public Long createID() {
-        return confirmationCodeDao.createID();
-    }
+    private static final ConfirmationCodeDao confirmationCodeDao =
+            ConfirmationCodeDaoFactory.getInstance();
 
     @Override
     public void addConfirmationCode(ConfirmationCode confirmationCode) {
@@ -27,22 +23,12 @@ public class ConfirmationCodeServiceImpl implements ConfirmationCodeService {
     }
 
     @Override
-    public Optional<ConfirmationCode> getById(Long id) {
-        return confirmationCodeDao.getById(id);
+    public Optional<ConfirmationCode> getByUserEmail(String userEmail) {
+        return confirmationCodeDao.getByUserEmail(userEmail);
     }
 
     @Override
-    public Optional<ConfirmationCode> getByBasketID(Long id) {
-        return confirmationCodeDao.getByBasketID(id);
-    }
-
-    @Override
-    public List<ConfirmationCode> getAll() {
-        return confirmationCodeDao.getAll();
-    }
-
-    @Override
-    public List<ConfirmationCode> getAllByUserEmail(String userEmail) {
-        return confirmationCodeDao.getAllByUserEmail(userEmail);
+    public Optional<ConfirmationCode> getLastConfirmationCodeForUser(User user) {
+        return confirmationCodeDao.getLastConfirmationCodeForUser(user);
     }
 }

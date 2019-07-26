@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(value = "/user/order")
@@ -31,6 +32,13 @@ public class OrderServlet extends HttpServlet {
             throws ServletException, IOException {
         User userFromSession = (User) req.getSession().getAttribute("user");
         Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
+        String name = req.getParameter("name");
+        String surname = req.getParameter("surname");
+        String address = req.getParameter("address");
+
+        req.setAttribute("name", name);
+        req.setAttribute("surname", surname);
+        req.setAttribute("address", address);
         req.setAttribute("userID", userFromSession.getId());
         req.setAttribute("userEmail", userFromSession.getEmail());
         req.setAttribute("totalPrice", basketFromSession.getTotalPrice());
@@ -75,24 +83,36 @@ public class OrderServlet extends HttpServlet {
         }
 
         ConfirmationCode confirmationCode = basketFromSession.getConfirmationCode();
-        if (code.equals(confirmationCode.getCode())) {
-            Order order = new Order(userFromSession.getId(), basketFromSession.getId(),
-                    userFromSession.getEmail());
-            order.setName(name);
-            order.setSurname(surname);
-            order.setAddress(address);
-            basketService.addBasket(basketFromSession);
-            order.setBasketID(basketFromSession.getId());
-            orderService.addOrder(order);
-            confirmationCode.setBasketID(basketFromSession.getId());
-            confirmationCodeService.addConfirmationCode(confirmationCode);
-            req.setAttribute("success", "Successfull purchase!");
-            req.getRequestDispatcher("/account.jsp").forward(req, resp);
-            resp.sendRedirect("/signIn");
-        } else {
+        if (confirmationCode == null || !code.equals(confirmationCode.getCode())) {
             req.setAttribute("error", "Wrong confirmation code! Try another");
             req.getRequestDispatcher("/add_order.jsp").forward(req, resp);
             resp.sendRedirect("/user/order");
+        } else {
+            confirmationCode.setUserEmail(userFromSession.getEmail());
+            confirmationCodeService.addConfirmationCode(confirmationCode);
+            ConfirmationCode codeFromDB =
+                    confirmationCodeService.getLastConfirmationCodeForUser(userFromSession).get();
+
+            basketFromSession.setConfirmationCode(codeFromDB);
+            basketService.addBasket(basketFromSession);
+            Basket basketFromDB = basketService.getLastBasketForUser(userFromSession).get();
+
+            basketFromSession.setId(basketFromDB.getId());
+            basketService.addProductsToBasket(basketFromSession);
+
+            Order order = new Order(userFromSession.getId(), userFromSession.getEmail());
+            order.setName(name);
+            order.setSurname(surname);
+            order.setAddress(address);
+            order.setBasketID(basketFromDB.getId());
+            orderService.addOrder(order);
+
+            req.setAttribute("success", "Successfull purchase!");
+            HttpSession session = req.getSession();
+            Basket basket = new Basket(userFromSession.getId());
+            session.setAttribute("basket", basket);
+            req.getRequestDispatcher("/account.jsp").forward(req, resp);
+            resp.sendRedirect("/signIn");
         }
     }
 }

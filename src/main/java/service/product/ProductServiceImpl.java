@@ -12,11 +12,6 @@ public class ProductServiceImpl implements ProductService {
     private static final ProductDao productDao = ProductDaoFactory.getInstance();
 
     @Override
-    public Long createId() {
-        return productDao.createID();
-    }
-
-    @Override
     public void addProduct(Product product) {
         productDao.addProduct(product);
     }
@@ -24,6 +19,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void removeProduct(Long id) {
         productDao.removeProduct(id);
+    }
+
+    @Override
+    public void updateProduct(Long id, Product product) {
+        productDao.updateProduct(id, product);
     }
 
     @Override
