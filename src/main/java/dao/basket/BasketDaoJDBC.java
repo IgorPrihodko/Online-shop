@@ -21,14 +21,13 @@ public class BasketDaoJDBC implements BasketDao {
 
     private static final UserService userService = UserServiceFactory.getInstance();
     private static final Logger logger = Logger.getLogger(BasketDaoJDBC.class);
-    private static final String ADD_PRODUCT_TO_BASKET = "INSERT INTO list_of_products_in_basket " +
+    private static final String ADD_PRODUCT_TO_BASKET = "INSERT INTO product_in_basket " +
             "(basket_id, product_id) VALUES (?, ?)";
-    private static final String ADD_BASKET = "INSERT INTO baskets (user_id, total_price," +
-            " confirmation_code_id) VALUES (?, ?, ?)";
+    private static final String ADD_BASKET = "INSERT INTO baskets (user_id, confirmation_code_id)" +
+            " VALUES (?, ?)";
     private static final String REMOVE_BASKET = "DELETE FROM baskets WHERE id = ?";
-    private static final String GET_LAST_BASKET_FOR_USER = "SELECT baskets.id, baskets.user_id," +
-            "baskets.total_price, baskets.confirmation_code_id FROM baskets INNER JOIN " +
-            "confirmation_codes ON baskets.confirmation_code_id = confirmation_codes.id WHERE " +
+    private static final String GET_LAST_BASKET_FOR_USER = "SELECT baskets.id, baskets.user_id, " +
+            "baskets.confirmation_code_id FROM baskets WHERE " +
             "baskets.user_id = ? ORDER BY baskets.id DESC LIMIT 1";
     private static final String GET_ALL_BY_USER = "SELECT * FROM baskets WHERE user_id = ?";
 
@@ -37,8 +36,7 @@ public class BasketDaoJDBC implements BasketDao {
         try (Connection connection = DBConnector.connect()) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_BASKET);
             preparedStatement.setLong(1, basket.getUserID());
-            preparedStatement.setBigDecimal(2, basket.getTotalPrice());
-            preparedStatement.setLong(3, basket.getConfirmationCode().getId());
+            preparedStatement.setLong(2, basket.getConfirmationCode().getId());
             preparedStatement.execute();
 
             logger.info("Basket " + basket + " was added to DB");
@@ -78,7 +76,8 @@ public class BasketDaoJDBC implements BasketDao {
     @Override
     public Optional<Basket> getLastBasketForUser(User user) {
         try (Connection connection = DBConnector.connect()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_LAST_BASKET_FOR_USER);
+            PreparedStatement preparedStatement =
+                    connection.prepareStatement(GET_LAST_BASKET_FOR_USER);
             preparedStatement.setLong(1, user.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -89,7 +88,6 @@ public class BasketDaoJDBC implements BasketDao {
                 Basket basket = new Basket(
                         resultSet.getLong("id"),
                         resultSet.getLong("user_id"),
-                        resultSet.getBigDecimal("total_price"),
                         confirmationCode
                 );
 
@@ -115,7 +113,6 @@ public class BasketDaoJDBC implements BasketDao {
                 Basket basket = new Basket(
                         resultSet.getLong("id"),
                         user.getId(),
-                        resultSet.getBigDecimal("total_price"),
                         confirmationCode
                 );
                 basketList.add(basket);

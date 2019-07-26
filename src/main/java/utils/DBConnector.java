@@ -10,10 +10,10 @@ import java.util.TimeZone;
 public class DBConnector {
 
     private static final Logger logger = Logger.getLogger(DBConnector.class);
-    private static final String dbUrl = "jdbc:mysql://localhost:3306/online_shop?serverTimezone=" +
+    private static String dbUrl = "jdbc:mysql://localhost:3306/online_shop?serverTimezone=" +
             TimeZone.getDefault().getID();
-    private static final String login = "root";
-    private static final String password = "1111";
+    private static String login = "root";
+    private static String password = "1111";
 
     public static Connection connect() {
         try {

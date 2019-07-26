@@ -23,10 +23,9 @@ public class Basket {
         this.totalPrice = totalPrice;
     }
 
-    public Basket(Long id, Long userID, BigDecimal totalPrice, ConfirmationCode confirmationCode) {
+    public Basket(Long id, Long userID, ConfirmationCode confirmationCode) {
         this.id = id;
         this.userID = userID;
-        this.totalPrice = totalPrice;
         this.confirmationCode = confirmationCode;
     }
 
