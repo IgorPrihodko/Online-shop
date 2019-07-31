@@ -1,7 +1,7 @@
 package factory;
 
 import dao.order.OrderDao;
-import dao.order.OrderDaoJDBC;
+import dao.order.OrderDaoHibernate;
 
 public class OrderDaoFactory {
 
@@ -9,7 +9,7 @@ public class OrderDaoFactory {
 
     public static synchronized OrderDao getInstance() {
         if (instance == null) {
-            instance = new OrderDaoJDBC();
+            instance = new OrderDaoHibernate();
         }
         return instance;
     }

@@ -1,8 +1,13 @@
 package utils;
 
+import java.util.Random;
+
 public class ConfirmCodeGenerator {
 
     public static String generateCode() {
-        return String.valueOf(Math.round(Math.random() * 10000));
+        int min = 1000;
+        int max = 9999;
+        int randomNum = new Random().nextInt((max - min) + 1) + min;
+        return String.valueOf(randomNum);
     }
 }

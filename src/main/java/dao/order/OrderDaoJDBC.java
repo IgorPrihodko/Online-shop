@@ -1,6 +1,7 @@
+/*
 package dao.order;
 
-import model.Order;
+import model.StockOnOrder;
 import org.apache.log4j.Logger;
 import utils.DBConnector;
 
@@ -22,7 +23,7 @@ public class OrderDaoJDBC implements OrderDao {
     private static final String GET_ALL = "SELECT * FROM orders";
 
     @Override
-    public void addOrder(Order order) {
+    public void addOrder(StockOnOrder order) {
         try (Connection connection = DBConnector.connect()) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_ORDER);
             preparedStatement.setLong(1, order.getUserID());
@@ -32,7 +33,7 @@ public class OrderDaoJDBC implements OrderDao {
             preparedStatement.setString(5, order.getAddress());
             preparedStatement.setLong(6, order.getBasketID());
             preparedStatement.execute();
-            logger.info("Order " + order + " was added to DB");
+            logger.info("StockOnOrder " + order + " was added to DB");
         } catch (SQLException e) {
             logger.error("Adding order " + order + " was failed", e);
         }
@@ -44,21 +45,21 @@ public class OrderDaoJDBC implements OrderDao {
             PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_ORDER);
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
-            logger.info("Order with id = " + id + " was removed from db");
+            logger.info("StockOnOrder with id = " + id + " was removed from db");
         } catch (SQLException e) {
             logger.error("Removing order with id = " + id + " from db was failed", e);
         }
     }
 
     @Override
-    public Optional<Order> getById(Long id) {
+    public Optional<StockOnOrder> getById(Long id) {
         try(Connection connection = DBConnector.connect()) {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_BY_ID);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                Order order = new Order(
+                StockOnOrder order = new StockOnOrder(
                         resultSet.getLong("id"),
                         resultSet.getLong("user_id"),
                         resultSet.getString("user_email"),
@@ -76,14 +77,14 @@ public class OrderDaoJDBC implements OrderDao {
     }
 
     @Override
-    public List<Order> getAll() {
-        List<Order> allOrders = new ArrayList<>();
+    public List<StockOnOrder> getAll() {
+        List<StockOnOrder> allOrders = new ArrayList<>();
         try (Connection connection = DBConnector.connect()) {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                Order order = new Order(
+                StockOnOrder order = new StockOnOrder(
                         resultSet.getLong("id"),
                         resultSet.getLong("user_id"),
                         resultSet.getString("user_email"),
@@ -99,3 +100,4 @@ public class OrderDaoJDBC implements OrderDao {
         return allOrders;
     }
 }
+*/

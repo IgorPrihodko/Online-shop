@@ -41,7 +41,7 @@ public class MailServiceImpl implements MailService {
             message.setFrom(new InternetAddress(username));
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse(code.getUserEmail())
+                    InternetAddress.parse(code.getUser().getEmail())
             );
             message.setSubject("Confirmation code");
             message.setText("Enter this code - [" + code.getCode() + "] for confirmation");

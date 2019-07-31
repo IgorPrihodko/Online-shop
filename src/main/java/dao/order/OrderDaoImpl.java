@@ -1,6 +1,6 @@
 package dao.order;
 
-import model.Order;
+import model.StockOnOrder;
 import org.apache.log4j.Logger;
 import utils.IDCreator;
 
@@ -11,30 +11,30 @@ import java.util.Optional;
 public class OrderDaoImpl implements OrderDao {
 
     private static final Logger logger = Logger.getLogger(OrderDaoImpl.class);
-    private static final List<Order> orders = new ArrayList<>();
+    private static final List<StockOnOrder> STOCK_ON_ORDERS = new ArrayList<>();
     private static Long idCounter = 1L;
 
     @Override
-    public void addOrder(Order order) {
-        order.setId(IDCreator.create(idCounter));
+    public void addOrder(StockOnOrder stockOnOrder) {
+        stockOnOrder.setId(IDCreator.create(idCounter));
         idCounter++;
-        orders.add(order);
-        logger.info("Add order " + order + " to db");
+        STOCK_ON_ORDERS.add(stockOnOrder);
+        logger.info("Add stockOnOrder " + stockOnOrder + " to db");
     }
 
     @Override
     public void removeOrder(Long id) {
-        orders.remove(orders.stream().filter(order -> order.getId().equals(id)).findFirst().get());
+        STOCK_ON_ORDERS.remove(STOCK_ON_ORDERS.stream().filter(order -> order.getId().equals(id)).findFirst().get());
         logger.info("Remove order from db");
     }
 
     @Override
-    public Optional<Order> getById(Long id) {
-        return orders.stream().filter(order -> order.getId().equals(id)).findFirst();
+    public Optional<StockOnOrder> getById(Long id) {
+        return STOCK_ON_ORDERS.stream().filter(order -> order.getId().equals(id)).findFirst();
     }
 
     @Override
-    public List<Order> getAll() {
-        return orders;
+    public List<StockOnOrder> getAll() {
+        return STOCK_ON_ORDERS;
     }
 }

@@ -24,7 +24,7 @@ public class AddToBasketServlet extends HttpServlet {
             throws ServletException, IOException {
         User userFromSession = (User) req.getSession().getAttribute("user");
         Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
-        basketFromSession.setUserID(userFromSession.getId());
+        basketFromSession.setUser(userFromSession);
         basketFromSession.setTotalPrice(TotalPriceCounter.count(basketFromSession));
         req.setAttribute("totalPrice", basketFromSession.getTotalPrice());
         req.setAttribute("basket", basketFromSession.getProductsInBasket());
@@ -39,7 +39,7 @@ public class AddToBasketServlet extends HttpServlet {
         req.setAttribute("id", id);
         User userFromSession = (User) req.getSession().getAttribute("user");
         Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
-        basketFromSession.setUserID(userFromSession.getId());
+        basketFromSession.setUser(userFromSession);
         basketFromSession.addProductToBasket(product);
         basketFromSession.setTotalPrice(TotalPriceCounter.count(basketFromSession));
         req.setAttribute("allProducts", productService.getAll());

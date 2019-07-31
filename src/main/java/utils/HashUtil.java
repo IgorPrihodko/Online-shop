@@ -16,6 +16,7 @@ public class HashUtil {
         byte[] salt = getSalt();
 
         PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 512);
+
         SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
         byte[] hash = skf.generateSecret(spec).getEncoded();
         return iterations + ":" + toHex(salt) + ":" + toHex(hash);

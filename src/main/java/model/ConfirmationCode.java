@@ -1,24 +1,42 @@
 package model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "confirmationCodes")
 public class ConfirmationCode {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "code")
     private String code;
-    private String userEmail;
 
-    public ConfirmationCode(String userEmail) {
-        this.userEmail = userEmail;
+    @JoinColumn(name = "user")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.MERGE)
+    private User user;
+
+    public ConfirmationCode() {
     }
 
-    public ConfirmationCode(Long id, String userEmail) {
-        this.id = id;
-        this.userEmail = userEmail;
+    public ConfirmationCode(User user) {
+        this.user = user;
     }
 
-    public ConfirmationCode(Long id, String code, String userEmail) {
-        this.id = id;
+    public ConfirmationCode(String code, User user) {
         this.code = code;
-        this.userEmail = userEmail;
+        this.user = user;
     }
 
     public Long getId() {
@@ -37,12 +55,12 @@ public class ConfirmationCode {
         this.code = code;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -54,14 +72,14 @@ public class ConfirmationCode {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (code != null ? !code.equals(that.code) : that.code != null) return false;
-        return userEmail != null ? userEmail.equals(that.userEmail) : that.userEmail == null;
+        return user != null ? user.equals(that.user) : that.user == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (code != null ? code.hashCode() : 0);
-        result = 31 * result + (userEmail != null ? userEmail.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
 
@@ -70,7 +88,7 @@ public class ConfirmationCode {
         return "ConfirmationCode{" +
                 "id=" + id +
                 ", code='" + code + '\'' +
-                ", userEmail='" + userEmail + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

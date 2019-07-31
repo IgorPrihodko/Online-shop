@@ -2,7 +2,7 @@ package service.order;
 
 import dao.order.OrderDao;
 import factory.OrderDaoFactory;
-import model.Order;
+import model.StockOnOrder;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,8 +12,8 @@ public class OrderServiceImpl implements OrderService {
     private static final OrderDao orderDao = OrderDaoFactory.getInstance();
 
     @Override
-    public void addOrder(Order order) {
-        orderDao.addOrder(order);
+    public void addOrder(StockOnOrder stockOnOrder) {
+        orderDao.addOrder(stockOnOrder);
     }
 
     @Override
@@ -22,12 +22,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> getById(Long id) {
+    public Optional<StockOnOrder> getById(Long id) {
         return orderDao.getById(id);
     }
 
     @Override
-    public List<Order> getAll() {
+    public List<StockOnOrder> getAll() {
         return orderDao.getAll();
     }
 }
