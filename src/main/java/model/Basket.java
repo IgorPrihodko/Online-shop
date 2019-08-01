@@ -27,7 +27,7 @@ public class Basket {
     private Long id;
 
     @JoinColumn(name = "user")
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private User user;
 
     @Column(name = "totalPrice")

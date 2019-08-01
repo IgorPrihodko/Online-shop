@@ -5,11 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -28,9 +25,6 @@ public class Product {
 
     @Column(name = "price")
     private BigDecimal price;
-
-    /*@ManyToMany(mappedBy = "productsInBasket")
-    private List<Basket> baskets = new ArrayList<>();*/
 
     public Product() {
     }

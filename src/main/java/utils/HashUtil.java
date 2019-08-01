@@ -10,7 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 public class HashUtil {
 
     public static String generateHashPassword(String password)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+            throws NoSuchAlgorithmException, InvalidKeySpecException, NullPointerException {
         int iterations = 1000;
         char[] chars = password.toCharArray();
         byte[] salt = getSalt();

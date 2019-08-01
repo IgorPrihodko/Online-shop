@@ -22,7 +22,7 @@ public class StockOnOrder {
     private Long id;
 
     @JoinColumn(name = "user")
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private User user;
 
     @Column(name = "userEmail")
@@ -38,7 +38,7 @@ public class StockOnOrder {
     private String address;
 
     @JoinColumn(name = "basket")
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = Basket.class, cascade = CascadeType.MERGE)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Basket basket;
 
     public StockOnOrder() {

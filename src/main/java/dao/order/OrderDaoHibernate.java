@@ -19,20 +19,22 @@ public class OrderDaoHibernate implements OrderDao {
     @Override
     public void addOrder(StockOnOrder stockOnOrder) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(stockOnOrder);
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not add new stockOnOrder " + stockOnOrder, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public void removeOrder(Long id) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             StockOnOrder stockOnOrder = session.get(StockOnOrder.class, id);
             if (stockOnOrder != null) {
@@ -44,14 +46,16 @@ public class OrderDaoHibernate implements OrderDao {
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not remove stockOnOrder with id " + id, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public Optional<StockOnOrder> getById(Long id) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = " FROM StockOnOrder stockOnOrder WHERE id = :stockOnOrderId";
             Query query = session.createQuery(hql);
@@ -61,7 +65,9 @@ public class OrderDaoHibernate implements OrderDao {
             return optionalStockOnOrder;
         } catch (HibernateException e) {
             logger.error("Can not get stockOnOrder with id " + id, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Optional.empty();
     }
@@ -69,7 +75,7 @@ public class OrderDaoHibernate implements OrderDao {
     @Override
     public List<StockOnOrder> getAll() {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             List<StockOnOrder> stockOnOrders = session.createQuery("FROM StockOnOrder",
                     StockOnOrder.class).list();
@@ -77,7 +83,9 @@ public class OrderDaoHibernate implements OrderDao {
             return stockOnOrders;
         } catch (HibernateException e) {
             logger.error("Can not get all stockOnOrders", e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Collections.emptyList();
     }

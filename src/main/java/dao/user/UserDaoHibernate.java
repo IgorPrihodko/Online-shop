@@ -19,7 +19,7 @@ public class UserDaoHibernate implements UserDao {
     @Override
     public void addUser(User user) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(user);
             transaction.commit();
@@ -32,7 +32,7 @@ public class UserDaoHibernate implements UserDao {
     @Override
     public void removeUser(Long id) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             User user = session.get(User.class, id);
             if (user != null) {
@@ -44,14 +44,16 @@ public class UserDaoHibernate implements UserDao {
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not remove user with id " + id, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public void updateUser(Long id, User user) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql =
                     "UPDATE User user set email = :email, password =:password, role =:role" +
@@ -65,14 +67,16 @@ public class UserDaoHibernate implements UserDao {
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not update user " + user + " with id = " + id, e);
-            if (transaction!=null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public Optional<User> getByEmail(String email) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = " FROM User user WHERE email = :userEmail";
             Query query = session.createQuery(hql);
@@ -82,7 +86,9 @@ public class UserDaoHibernate implements UserDao {
             return optionalUser;
         } catch (HibernateException e) {
             logger.error("Can not get user with email " + email, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Optional.empty();
     }
@@ -90,7 +96,7 @@ public class UserDaoHibernate implements UserDao {
     @Override
     public Optional<User> getById(Long id) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try  (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = " FROM User user WHERE id = :userId";
             Query query = session.createQuery(hql);
@@ -100,7 +106,9 @@ public class UserDaoHibernate implements UserDao {
             return optionalUser;
         } catch (HibernateException e) {
             logger.error("Can not get user with id " + id, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Optional.empty();
     }
@@ -108,14 +116,16 @@ public class UserDaoHibernate implements UserDao {
     @Override
     public List<User> getAll() {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             List<User> users = session.createQuery("FROM User", User.class).list();
             transaction.commit();
             return users;
         } catch (HibernateException e) {
             logger.error("Can not get all users ", e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Collections.emptyList();
     }

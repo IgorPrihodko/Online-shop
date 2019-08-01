@@ -19,20 +19,22 @@ public class ProductDaoHibernate implements ProductDao {
     @Override
     public void addProduct(Product product) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(product);
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not add new product " + product, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public void removeProduct(Long id) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             Product product = session.get(Product.class, id);
             if (product != null) {
@@ -44,14 +46,16 @@ public class ProductDaoHibernate implements ProductDao {
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not remove product with id " + id, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public void updateProduct(Long id, Product product) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = "UPDATE Product product set title = :title, description =:description," +
                     " price =:price WHERE id = :productId";
@@ -64,14 +68,16 @@ public class ProductDaoHibernate implements ProductDao {
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not update product " + product + " with id = " + id, e);
-            if (transaction!=null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public Optional<Product> getById(Long id) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = " FROM Product product WHERE id = :productId";
             Query query = session.createQuery(hql);
@@ -81,7 +87,9 @@ public class ProductDaoHibernate implements ProductDao {
             return optionalProduct;
         } catch (HibernateException e) {
             logger.error("Can not get product with id " + id, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Optional.empty();
     }
@@ -89,7 +97,7 @@ public class ProductDaoHibernate implements ProductDao {
     @Override
     public List<Product> getAll() {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             List<Product> products =
                     session.createQuery("FROM Product", Product.class).list();
@@ -97,7 +105,9 @@ public class ProductDaoHibernate implements ProductDao {
             return products;
         } catch (HibernateException e) {
             logger.error("Can not get all products ", e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Collections.emptyList();
     }
