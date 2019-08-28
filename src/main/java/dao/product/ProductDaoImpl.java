@@ -2,6 +2,7 @@ package dao.product;
 
 import model.Product;
 import org.apache.log4j.Logger;
+import utils.IDCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,9 @@ public class ProductDaoImpl implements ProductDao {
     private static Long idCounter = 0L;
 
     @Override
-    public synchronized Long createID() {
-        logger.info("Increment id counter for product");
-        return idCounter++;
-    }
-
-    @Override
     public void addProduct(Product product) {
-        product.setId(createID());
+        product.setId(IDCreator.create(idCounter));
+        idCounter++;
         products.add(product);
         logger.info("Add product " + product + " to db");
     }
@@ -33,6 +29,14 @@ public class ProductDaoImpl implements ProductDao {
                  .findFirst()
                  .get());
         logger.info("Remove product from db");
+    }
+
+    @Override
+    public void updateProduct(Long id, Product updatedProduct) {
+        products.set(products.indexOf(products
+                .stream()
+                .filter(product -> product.getId().equals(id)).findFirst().get()), updatedProduct);
+        logger.info("Update product from db");
     }
 
     @Override

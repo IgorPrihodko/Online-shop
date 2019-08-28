@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface OrderDao {
 
-    Long createID();
-
     void addOrder(Order order);
 
     void removeOrder(Long id);
@@ -16,6 +14,4 @@ public interface OrderDao {
     Optional<Order> getById(Long id);
 
     List<Order> getAll();
-
-    List<Order> getAllByUser(Long userID);
 }

@@ -78,6 +78,7 @@ public class EditUserServlet extends HttpServlet {
             user.setEmail(email);
             user.setPassword(password);
             user.setRole(role);
+            userService.updateUser(id, user);
             logger.warn("Edit user data " + user + " in db");
         }
         resp.sendRedirect("/admin/users");

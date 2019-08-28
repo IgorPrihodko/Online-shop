@@ -7,8 +7,6 @@ import java.util.Optional;
 
 public interface OrderService {
 
-    Long createID();
-
     void addOrder(Order order);
 
     void removeOrder(Long id);
@@ -16,6 +14,4 @@ public interface OrderService {
     Optional<Order> getById(Long id);
 
     List<Order> getAll();
-
-    List<Order> getAllByUser(Long userID);
 }

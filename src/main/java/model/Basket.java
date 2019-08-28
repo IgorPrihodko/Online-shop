@@ -8,13 +8,25 @@ public class Basket {
 
     private Long id;
     private Long userID;
-    private Long orderID;
-    private List<Product> productsInBasket = new ArrayList<>();
     private BigDecimal totalPrice;
     private ConfirmationCode confirmationCode;
 
+    private List<Product> productsInBasket = new ArrayList<>();
+
     public Basket(Long userID) {
         this.userID = userID;
+    }
+
+    public Basket(Long id, Long userID, BigDecimal totalPrice) {
+        this.id = id;
+        this.userID = userID;
+        this.totalPrice = totalPrice;
+    }
+
+    public Basket(Long id, Long userID, ConfirmationCode confirmationCode) {
+        this.id = id;
+        this.userID = userID;
+        this.confirmationCode = confirmationCode;
     }
 
     public void addProductToBasket(Product product) {
@@ -39,14 +51,6 @@ public class Basket {
 
     public void setUserID(Long userID) {
         this.userID = userID;
-    }
-
-    public Long getOrderID() {
-        return orderID;
-    }
-
-    public void setOrderID(Long orderID) {
-        this.orderID = orderID;
     }
 
     public List<Product> getProductsInBasket() {
@@ -74,14 +78,39 @@ public class Basket {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Basket basket = (Basket) o;
+
+        if (id != null ? !id.equals(basket.id) : basket.id != null) return false;
+        if (userID != null ? !userID.equals(basket.userID) : basket.userID != null) return false;
+        if (totalPrice != null ? !totalPrice.equals(basket.totalPrice) : basket.totalPrice != null)
+            return false;
+        if (confirmationCode != null ? !confirmationCode.equals(basket.confirmationCode) : basket.confirmationCode != null)
+            return false;
+        return productsInBasket != null ? productsInBasket.equals(basket.productsInBasket) : basket.productsInBasket == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (userID != null ? userID.hashCode() : 0);
+        result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
+        result = 31 * result + (confirmationCode != null ? confirmationCode.hashCode() : 0);
+        result = 31 * result + (productsInBasket != null ? productsInBasket.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "Basket{" +
                 "id=" + id +
                 ", userID=" + userID +
-                ", orderID=" + orderID +
-                ", productsInBasket=" + productsInBasket +
                 ", totalPrice=" + totalPrice +
                 ", confirmationCode=" + confirmationCode +
+                ", productsInBasket=" + productsInBasket +
                 '}';
     }
 }

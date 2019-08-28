@@ -12,11 +12,6 @@ public class OrderServiceImpl implements OrderService {
     private static final OrderDao orderDao = OrderDaoFactory.getInstance();
 
     @Override
-    public Long createID() {
-        return orderDao.createID();
-    }
-
-    @Override
     public void addOrder(Order order) {
         orderDao.addOrder(order);
     }
@@ -34,10 +29,5 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAll() {
         return orderDao.getAll();
-    }
-
-    @Override
-    public List<Order> getAllByUser(Long userID) {
-        return orderDao.getAllByUser(userID);
     }
 }

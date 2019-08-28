@@ -12,11 +12,6 @@ public class UserServiceImpl implements UserService {
     private static final UserDao userDao = UserDaoFactory.getInstance();
 
     @Override
-    public Long createId() {
-        return userDao.createID();
-    }
-
-    @Override
     public void addUser(User user) {
         userDao.addUser(user);
     }
@@ -24,6 +19,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void removeUser(Long id) {
         userDao.removeUser(id);
+    }
+
+    @Override
+    public void updateUser(Long id, User user) {
+        userDao.updateUser(id, user);
     }
 
     @Override

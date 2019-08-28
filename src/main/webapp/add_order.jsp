@@ -16,12 +16,12 @@
         <h3>Total price = ${totalPrice}</h3>
         <button type="submit">Buy</button>
     </form>
-    <form action="/user/sendCode" method="get">
+    <form action="/user/sendCode" method="post">
         <button type="submit">Send confirmation code to email</button>
     </form>
     <h2>${error}</h2>
-    <form action="/user/basketID" method="get">
-        <button type="submit">Back to basketID</button>
+    <form action="/user/basket" method="get">
+        <button type="submit">Back to basket</button>
     </form>
 </div>
 </body>

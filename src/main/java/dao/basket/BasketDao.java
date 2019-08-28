@@ -1,21 +1,20 @@
 package dao.basket;
 
 import model.Basket;
+import model.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BasketDao {
 
-    Long createID();
-
     void addBasket(Basket basket);
 
     void removeBasket(Long id);
 
-    Optional<Basket> getById(Long id);
+    void addProductsToBasket(Basket basket);
 
-    List<Basket> getAll();
+    Optional<Basket> getLastBasketForUser(User user);
 
-    List<Basket> getAllByUser(Long userID);
+    List<Basket> getAllByUser(User user);
 }

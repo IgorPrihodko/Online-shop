@@ -1,7 +1,7 @@
 package factory;
 
 import dao.basket.BasketDao;
-import dao.basket.BasketDaoImpl;
+import dao.basket.BasketDaoJDBC;
 
 public class BasketDaoFactory {
 
@@ -9,7 +9,7 @@ public class BasketDaoFactory {
 
     public static synchronized BasketDao getInstance() {
         if (instance == null) {
-            instance = new BasketDaoImpl();
+            instance = new BasketDaoJDBC();
         }
         return instance;
     }

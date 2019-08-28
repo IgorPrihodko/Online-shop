@@ -2,6 +2,7 @@ package dao.user;
 
 import model.User;
 import org.apache.log4j.Logger;
+import utils.IDCreator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,9 @@ public class UserDaoImpl implements UserDao {
     private static Long idCounter = 0L;
 
     @Override
-    public synchronized Long createID() {
-        logger.info("Increment id counter for user");
-        return idCounter++;
-    }
-
-    @Override
     public void addUser(User user) {
-        user.setId(createID());
+        user.setId(IDCreator.create(idCounter));
+        idCounter++;
         users.add(user);
         logger.info("Add user " + user + " to db");
     }
@@ -30,6 +26,13 @@ public class UserDaoImpl implements UserDao {
     public void removeUser(Long id) {
         users.remove(users.stream().filter(user -> user.getId().equals(id)).findFirst().get());
         logger.info("Remove user from db");
+    }
+
+    @Override
+    public void updateUser(Long id, User updatedUser) {
+        users.set(users.indexOf(users
+                .stream()
+                .filter(user -> user.getId().equals(id)).findFirst().get()), updatedUser);
     }
 
     @Override

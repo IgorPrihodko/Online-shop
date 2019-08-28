@@ -18,18 +18,28 @@ import java.io.IOException;
 public class SendCodeToEmailServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         User userFromSession = (User) req.getSession().getAttribute("user");
+        Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
         Long id = userFromSession.getId();
         String userEmail = userFromSession.getEmail();
-        Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
+        String name = req.getParameter("name");
+        String surname = req.getParameter("surname");
+        String address = req.getParameter("address");
+        req.setAttribute("userID", id);
+        req.setAttribute("userEmail", userEmail);
+        req.setAttribute("name", name);
+        req.setAttribute("surname", surname);
+        req.setAttribute("address", address);
+        req.setAttribute("totalPrice", basketFromSession.getTotalPrice());
         if (basketFromSession.getConfirmationCode() != null) {
             req.setAttribute("error",
                     "Confirmation code has already sent to your email. Check it please!");
             req.getRequestDispatcher("/add_order.jsp").forward(req, resp);
             resp.sendRedirect("/user/order");
         }
+
         ConfirmationCode confirmationCode = new ConfirmationCode(userEmail);
         String code = ConfirmCodeGenerator.generateCode();
         confirmationCode.setCode(code);
@@ -37,10 +47,7 @@ public class SendCodeToEmailServlet extends HttpServlet {
         mailService.sendConfirmCode(confirmationCode);
         basketFromSession.setConfirmationCode(confirmationCode);
 
-        req.setAttribute("userID", id);
-        req.setAttribute("userEmail", userEmail);
-        req.setAttribute("totalPrice", basketFromSession.getTotalPrice());
-        req.getRequestDispatcher("/add_order.jsp").forward(req, resp);
+        req.getRequestDispatcher("/add_order.jsp").include(req, resp);
         resp.sendRedirect("/user/order");
     }
 }
