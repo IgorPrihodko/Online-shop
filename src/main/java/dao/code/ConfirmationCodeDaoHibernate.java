@@ -20,20 +20,22 @@ public class ConfirmationCodeDaoHibernate implements ConfirmationCodeDao {
     @Override
     public void addConfirmationCode(ConfirmationCode confirmationCode) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(confirmationCode);
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not add new confirmation code " + confirmationCode, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public void removeConfirmationCode(Long id) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             ConfirmationCode confirmationCode = session.get(ConfirmationCode.class, id);
             if (confirmationCode != null) {
@@ -46,14 +48,16 @@ public class ConfirmationCodeDaoHibernate implements ConfirmationCodeDao {
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not remove confirmation code with id " + id, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public List<ConfirmationCode> getByUserEmail(String userEmail) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = " FROM ConfirmationCode confirmationCode WHERE user.email = :userEmail";
             Query query = session.createQuery(hql);
@@ -63,7 +67,9 @@ public class ConfirmationCodeDaoHibernate implements ConfirmationCodeDao {
             return confirmationCodes;
         } catch (HibernateException e) {
             logger.error("Can not get user with email " + userEmail, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Collections.emptyList();
     }
@@ -71,7 +77,7 @@ public class ConfirmationCodeDaoHibernate implements ConfirmationCodeDao {
     @Override
     public Optional<ConfirmationCode> getLastConfirmationCodeForUser(User user) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = "FROM ConfirmationCode confirmationCode WHERE user.id = :userId ";
             Query query = session.createQuery(hql);
@@ -86,7 +92,9 @@ public class ConfirmationCodeDaoHibernate implements ConfirmationCodeDao {
             return optionalConfirmationCode;
         } catch (HibernateException e) {
             logger.error("Can not get last confirmation code for user " + user, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Optional.empty();
     }

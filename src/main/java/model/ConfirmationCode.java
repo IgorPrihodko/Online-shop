@@ -24,7 +24,7 @@ public class ConfirmationCode {
     private String code;
 
     @JoinColumn(name = "user")
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private User user;
 
     public ConfirmationCode() {

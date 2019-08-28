@@ -10,32 +10,32 @@ import java.security.spec.InvalidKeySpecException;
 public class HashUtil {
 
     public static String generateHashPassword(String password)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+            throws NoSuchAlgorithmException, InvalidKeySpecException, NullPointerException {
         int iterations = 1000;
         char[] chars = password.toCharArray();
         byte[] salt = getSalt();
 
-        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 512);
+        PBEKeySpec pbeKeySpec = new PBEKeySpec(chars, salt, iterations, 512);
 
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-        byte[] hash = skf.generateSecret(spec).getEncoded();
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+        byte[] hash = secretKeyFactory.generateSecret(pbeKeySpec).getEncoded();
         return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
     private static byte[] getSalt() throws NoSuchAlgorithmException {
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
-        sr.nextBytes(salt);
+        secureRandom.nextBytes(salt);
         return salt;
     }
 
     private static String toHex(byte[] array) throws NoSuchAlgorithmException {
-        BigInteger bi = new BigInteger(1, array);
-        String hex = bi.toString(16);
+        BigInteger bigInteger = new BigInteger(1, array);
+        String hex = bigInteger.toString(16);
         int paddingLength = (array.length * 2) - hex.length();
         if(paddingLength > 0) {
-            return String.format("%0"  +paddingLength + "d", 0) + hex;
-        }else {
+            return String.format("%0" + paddingLength + "d", 0) + hex;
+        } else {
             return hex;
         }
     }
@@ -47,9 +47,9 @@ public class HashUtil {
         byte[] salt = fromHex(parts[1]);
         byte[] hash = fromHex(parts[2]);
 
-        PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(), salt, iterations, 512);
-        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-        byte[] testHash = skf.generateSecret(spec).getEncoded();
+        PBEKeySpec pbeKeySpec = new PBEKeySpec(originalPassword.toCharArray(), salt, iterations, 512);
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+        byte[] testHash = secretKeyFactory.generateSecret(pbeKeySpec).getEncoded();
 
         int diff = hash.length ^ testHash.length;
         for(int i = 0; i < hash.length && i < testHash.length; i++) {

@@ -20,20 +20,22 @@ public class BasketDaoHibernate implements BasketDao {
     @Override
     public void addBasket(Basket basket) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.save(basket);
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not add new basket " + basket, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public void removeBasket(Long id) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             Basket basket = session.get(Basket.class, id);
             if (basket != null) {
@@ -45,27 +47,31 @@ public class BasketDaoHibernate implements BasketDao {
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not remove basket with id " + id, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public void addProductsToBasket(Basket basket) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.update(basket);
             transaction.commit();
         } catch (HibernateException e) {
             logger.error("Can not add products to basket " + basket, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
     }
 
     @Override
     public Optional<Basket> getLastBasketForUser(User user) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = "FROM Basket basket WHERE user.id = :userId ";
             Query query = session.createQuery(hql);
@@ -80,7 +86,9 @@ public class BasketDaoHibernate implements BasketDao {
             return optionalBasket;
         } catch (HibernateException e) {
             logger.error("Can not get last basket for user " + user, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Optional.empty();
     }
@@ -88,7 +96,7 @@ public class BasketDaoHibernate implements BasketDao {
     @Override
     public List<Basket> getAllByUser(User user) {
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             String hql = " FROM Basket basket WHERE user.id = :userId";
             Query query = session.createQuery(hql);
@@ -98,7 +106,9 @@ public class BasketDaoHibernate implements BasketDao {
             return baskets;
         } catch (HibernateException e) {
             logger.error("Can not get baskets for user " + user, e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) {
+                transaction.rollback();
+            }
         }
         return Collections.emptyList();
     }
