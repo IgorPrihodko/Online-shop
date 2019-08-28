@@ -5,13 +5,11 @@ import org.apache.log4j.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.TimeZone;
 
 public class DBConnector {
 
     private static final Logger logger = Logger.getLogger(DBConnector.class);
-    private static String dbUrl = "jdbc:mysql://localhost:3306/online_shop?serverTimezone=" +
-            TimeZone.getDefault().getID();
+    private static String dbUrl = "jdbc:mysql://localhost:3306/online_shop";
     private static String login = "root";
     private static String password = "1111";
 

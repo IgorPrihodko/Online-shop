@@ -5,6 +5,7 @@ import factory.ConfirmationCodeDaoFactory;
 import model.ConfirmationCode;
 import model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public class ConfirmationCodeServiceImpl implements ConfirmationCodeService {
@@ -23,7 +24,7 @@ public class ConfirmationCodeServiceImpl implements ConfirmationCodeService {
     }
 
     @Override
-    public Optional<ConfirmationCode> getByUserEmail(String userEmail) {
+    public List<ConfirmationCode> getByUserEmail(String userEmail) {
         return confirmationCodeDao.getByUserEmail(userEmail);
     }
 

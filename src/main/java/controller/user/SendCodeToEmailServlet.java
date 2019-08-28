@@ -18,6 +18,24 @@ import java.io.IOException;
 public class SendCodeToEmailServlet extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        User userFromSession = (User) req.getSession().getAttribute("user");
+        Basket basketFromSession = (Basket) req.getSession().getAttribute("basket");
+        Long id = userFromSession.getId();
+        String userEmail = userFromSession.getEmail();
+        String name = req.getParameter("name");
+        String surname = req.getParameter("surname");
+        String address = req.getParameter("address");
+        req.setAttribute("userID", id);
+        req.setAttribute("userEmail", userEmail);
+        req.setAttribute("name", name);
+        req.setAttribute("surname", surname);
+        req.setAttribute("address", address);
+        req.setAttribute("totalPrice", basketFromSession.getTotalPrice());
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         User userFromSession = (User) req.getSession().getAttribute("user");
@@ -40,14 +58,14 @@ public class SendCodeToEmailServlet extends HttpServlet {
             resp.sendRedirect("/user/order");
         }
 
-        ConfirmationCode confirmationCode = new ConfirmationCode(userEmail);
+        ConfirmationCode confirmationCode = new ConfirmationCode(userFromSession);
         String code = ConfirmCodeGenerator.generateCode();
         confirmationCode.setCode(code);
         MailService mailService = new MailServiceImpl();
         mailService.sendConfirmCode(confirmationCode);
         basketFromSession.setConfirmationCode(confirmationCode);
 
-        req.getRequestDispatcher("/add_order.jsp").include(req, resp);
+        req.getRequestDispatcher("/add_order.jsp").forward(req, resp);
         resp.sendRedirect("/user/order");
     }
 }

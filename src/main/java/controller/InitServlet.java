@@ -27,14 +27,13 @@ public class InitServlet extends HttpServlet {
     public void init() throws ServletException {
         if (userService.getAll().isEmpty()) {
             try {
-                String hashedPasswordFirst = HashUtil.generateHashPassword("test");
-                User firstUserTest = new User("test@test", hashedPasswordFirst, "admin");
+                User firstUserTest = new User("test@test",
+                        HashUtil.generateHashPassword("test"), "admin");
                 userService.addUser(firstUserTest);
                 logger.info("Add initial user with ADMIN role " + firstUserTest + " to DB");
 
-                String hashedPasswordSecond = HashUtil.generateHashPassword("111");
                 User secondUserTest = new User("igorprihodkoemail@gmail.com",
-                        hashedPasswordSecond, "user");
+                        HashUtil.generateHashPassword("111"), "user");
                 userService.addUser(secondUserTest);
                 logger.info("Add initial user with USER role " + secondUserTest + " to DB");
             } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

@@ -1,3 +1,4 @@
+/*
 package dao.basket;
 
 import model.Basket;
@@ -39,7 +40,7 @@ public class BasketDaoImpl implements BasketDao {
     public Optional<Basket> getLastBasketForUser(User user) {
         return baskets.stream()
                 .filter(basket -> basket.getUserID().equals(user.getId()))
-                .max((o1, o2) -> (int) (o2.getId() - o1.getId()));
+                .min((o1, o2) -> (int) (o2.getId() - o1.getId()));
     }
 
     @Override
@@ -50,3 +51,4 @@ public class BasketDaoImpl implements BasketDao {
                 .collect(Collectors.toList());
     }
 }
+*/

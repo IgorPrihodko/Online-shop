@@ -1,3 +1,4 @@
+/*
 package dao.basket;
 
 import factory.UserServiceFactory;
@@ -35,7 +36,7 @@ public class BasketDaoJDBC implements BasketDao {
     public void addBasket(Basket basket) {
         try (Connection connection = DBConnector.connect()) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_BASKET);
-            preparedStatement.setLong(1, basket.getUserID());
+            preparedStatement.setLong(1, basket.getUser().getId());
             preparedStatement.setLong(2, basket.getConfirmationCode().getId());
             preparedStatement.execute();
 
@@ -123,3 +124,4 @@ public class BasketDaoJDBC implements BasketDao {
         return basketList;
     }
 }
+*/

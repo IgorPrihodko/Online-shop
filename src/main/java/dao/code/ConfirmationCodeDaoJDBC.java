@@ -1,3 +1,4 @@
+/*
 package dao.code;
 
 import model.ConfirmationCode;
@@ -28,7 +29,7 @@ public class ConfirmationCodeDaoJDBC implements ConfirmationCodeDao {
         try (Connection connection = DBConnector.connect()) {
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_CONFIRMATION_CODE);
             preparedStatement.setString(1, confirmationCode.getCode());
-            preparedStatement.setString(2, confirmationCode.getUserEmail());
+            preparedStatement.setString(2, confirmationCode.getUser().getEmail());
             preparedStatement.execute();
             logger.info("Confirmation code " + confirmationCode + " was added to DB");
         } catch (SQLException e) {
@@ -59,9 +60,8 @@ public class ConfirmationCodeDaoJDBC implements ConfirmationCodeDao {
 
             if (resultSet.next()) {
                 ConfirmationCode confirmationCode = new ConfirmationCode(
-                        resultSet.getLong("id"),
                         resultSet.getString("code"),
-                        resultSet.getString("user_email")
+                        resultSet.getString("user")
                 );
                 return Optional.of(confirmationCode);
             }
@@ -94,3 +94,4 @@ public class ConfirmationCodeDaoJDBC implements ConfirmationCodeDao {
         return Optional.empty();
     }
 }
+*/

@@ -8,6 +8,7 @@ import utils.IDCreator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ConfirmationCodeDaoImpl implements ConfirmationCodeDao {
 
@@ -35,17 +36,17 @@ public class ConfirmationCodeDaoImpl implements ConfirmationCodeDao {
     }
 
     @Override
-    public Optional<ConfirmationCode> getByUserEmail(String userEmail) {
+    public List<ConfirmationCode> getByUserEmail(String userEmail) {
         return confirmationCodes
                 .stream()
-                .filter(confirmationCode -> confirmationCode.getUserEmail().equals(userEmail))
-                .findFirst();
+                .filter(confirmationCode -> confirmationCode.getUser().getEmail().equals(userEmail))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Optional<ConfirmationCode> getLastConfirmationCodeForUser(User user) {
         return confirmationCodes.stream()
-                .filter(confirmationCode -> confirmationCode.getUserEmail().equals(user.getEmail()))
-                .max((o1, o2) -> (int) (o2.getId() - o1.getId()));
+                .filter(confirmationCode -> confirmationCode.getUser().equals(user))
+                .min((o1, o2) -> (int) (o2.getId() - o1.getId()));
     }
 }

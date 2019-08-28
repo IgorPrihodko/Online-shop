@@ -35,8 +35,9 @@
 </table>
 <div align="center">
     <h3>${totalPrice}</h3>
+    <h3>${error}</h3>
     <form action="/user/order" method="get">
-        <button type="submit">Make order</button>
+        <button type="submit">Make Order</button>
     </form>
 </div>
 </body>

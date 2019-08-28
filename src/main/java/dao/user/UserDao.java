@@ -17,5 +17,5 @@ public interface UserDao {
 
     Optional<User> getById (Long id);
 
-    List<User> getAll();
+    List getAll();
 }

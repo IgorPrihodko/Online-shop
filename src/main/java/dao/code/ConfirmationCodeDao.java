@@ -3,6 +3,7 @@ package dao.code;
 import model.ConfirmationCode;
 import model.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ConfirmationCodeDao {
@@ -11,7 +12,7 @@ public interface ConfirmationCodeDao {
 
     void removeConfirmationCode(Long id);
 
-    Optional<ConfirmationCode> getByUserEmail(String userEmail);
+    List<ConfirmationCode> getByUserEmail(String userEmail);
 
     Optional<ConfirmationCode> getLastConfirmationCodeForUser(User user);
 }

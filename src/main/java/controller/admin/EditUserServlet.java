@@ -77,16 +77,13 @@ public class EditUserServlet extends HttpServlet {
             req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
             resp.sendRedirect("/admin/editUser");
         } else {
-            if (user.getPassword().equals(password)) {
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setRole(role);
-            } else {
                 try {
                     String hashPassword = HashUtil.generateHashPassword(password);
                     user.setEmail(email);
                     user.setPassword(hashPassword);
                     user.setRole(role);
+                    userService.updateUser(id, user);
+                    logger.warn("Edit user data " + user + " in db");
                 } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
                     logger.error("Can not hashing password", e);
                     req.setAttribute("email", email);
@@ -94,9 +91,6 @@ public class EditUserServlet extends HttpServlet {
                     req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
                     resp.sendRedirect("/admin/editUser");
                 }
-            }
-            userService.updateUser(id, user);
-            logger.warn("Edit user data " + user + " in db");
         }
         resp.sendRedirect("/admin/users");
     }

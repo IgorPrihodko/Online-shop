@@ -25,6 +25,12 @@ public class SignInServlet extends HttpServlet {
     private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.getRequestDispatcher("/account.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String email = req.getParameter("email");
@@ -46,8 +52,7 @@ public class SignInServlet extends HttpServlet {
         Optional<User> optionalUser = userService.getByEmail(email);
         if (optionalUser.isPresent()) {
             try {
-                Boolean isValid = HashUtil.validatePassword(password,
-                        optionalUser.get().getPassword());
+                boolean isValid = HashUtil.validatePassword(password, optionalUser.get().getPassword());
                 if (isValid) {
                     HttpSession session = req.getSession();
                     session.setAttribute("user", optionalUser.get());
@@ -56,7 +61,7 @@ public class SignInServlet extends HttpServlet {
                         req.setAttribute("allUsers", userService.getAll());
                         req.getRequestDispatcher("/users.jsp").forward(req, resp);
                     } else {
-                        Basket basket = new Basket(optionalUser.get().getId());
+                        Basket basket = new Basket(optionalUser.get());
                         session.setAttribute("basket", basket);
                         req.getRequestDispatcher("/account.jsp").forward(req, resp);
                     }
