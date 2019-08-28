@@ -7,14 +7,10 @@
 <body>
 <center>
     <form action="/editProduct" method="post">
-        ID <input name="id" type="number" value="<%=request.getAttribute("id") == null ?
-         "" : request.getAttribute("id")%>" readonly>
-        Title <input name="title" type="text" value="<%=request.getAttribute("title") == null ?
-         "" : request.getAttribute("title")%>"/>
-        Description <input name="description" type="text" value="<%=request.getAttribute("description") == null ?
-         "" : request.getAttribute("description")%>"/>
-        Price <input name="price" type="number" step="0.1" value="<%=request.getAttribute("price") == null ?
-         "" : request.getAttribute("price")%>"/>
+        ID <input name="id" type="number" value="${id}" readonly/>
+        Title <input name="title" type="text" value="${title}"/>
+        Description <input name="description" type="text" value="${description}"/>
+        Price <input name="price" type="number" step="0.1" value="${price}"/>
         <button type="submit">Edit</button>
     </form>
     <h2>${error}</h2>

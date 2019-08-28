@@ -7,11 +7,9 @@
 <body>
 <center>
     <form action="/editUser" method="post">
-        ID <input name="id" type="number" value="<%=request.getAttribute("id") == null ?
-         "" : request.getAttribute("id")%>" readonly>
-        Email <input name="email" type="email" value="<%=request.getAttribute("email") == null ?
-         "" : request.getAttribute("email")%>"/>
-        Password <input name="password" type="password"/>
+        ID <input name="id" type="number" value="${id}" readonly>
+        Email <input name="email" type="email" value="${email}"/>
+        Password <input name="password" type="password" value="${password}"/>
         Repeat password <input name="repeatPassword" type="password"/>
         <button type="submit">Edit</button>
     </form>

@@ -2,6 +2,7 @@ package controller.user;
 
 import factory.UserServiceFactory;
 import model.User;
+import org.apache.log4j.Logger;
 import service.user.UserService;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/deleteUser")
 public class DeleteUserServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(DeleteUserServlet.class);
     private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
@@ -32,8 +34,10 @@ public class DeleteUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
+        User user = userService.getById(id).get();
         req.setAttribute("id", id);
         userService.removeUser(id);
+        logger.warn("Delete user " + user + " from db");
         resp.sendRedirect("/users");
     }
 }

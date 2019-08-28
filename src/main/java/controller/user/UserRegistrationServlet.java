@@ -2,6 +2,7 @@ package controller.user;
 
 import factory.UserServiceFactory;
 import model.User;
+import org.apache.log4j.Logger;
 import service.user.UserService;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,7 @@ import java.io.IOException;
 @WebServlet(value = "/register")
 public class UserRegistrationServlet extends HttpServlet {
 
+    private static final Logger logger = Logger.getLogger(UserRegistrationServlet.class);
     private static final UserService userService = UserServiceFactory.getInstance();
 
     @Override
@@ -62,6 +64,7 @@ public class UserRegistrationServlet extends HttpServlet {
         } else {
             User user = new User(email, password);
             userService.addUser(user);
+            logger.warn("Add new user " + user + " to db");
             resp.sendRedirect("/users");
         }
     }
