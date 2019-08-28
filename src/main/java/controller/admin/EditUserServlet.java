@@ -4,6 +4,7 @@ import factory.UserServiceFactory;
 import model.User;
 import org.apache.log4j.Logger;
 import service.user.UserService;
+import utils.HashUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 @WebServlet(value = "/admin/editUser")
 public class EditUserServlet extends HttpServlet {
@@ -63,8 +66,7 @@ public class EditUserServlet extends HttpServlet {
             resp.sendRedirect("/admin/editUser");
         }
 
-        if (userService.getByEmail(email).isPresent()
-                && !user.getEmail().equals(email)) {
+        if (userService.getByEmail(email).isPresent() && !user.getEmail().equals(email)) {
             req.setAttribute("error", "Email already registered! Try another.");
             req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
             resp.sendRedirect("/admin/editUser");
@@ -75,9 +77,24 @@ public class EditUserServlet extends HttpServlet {
             req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
             resp.sendRedirect("/admin/editUser");
         } else {
-            user.setEmail(email);
-            user.setPassword(password);
-            user.setRole(role);
+            if (user.getPassword().equals(password)) {
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setRole(role);
+            } else {
+                try {
+                    String hashPassword = HashUtil.generateHashPassword(password);
+                    user.setEmail(email);
+                    user.setPassword(hashPassword);
+                    user.setRole(role);
+                } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                    logger.error("Can not hashing password", e);
+                    req.setAttribute("email", email);
+                    req.setAttribute("error", "Bad type of password! Try another.");
+                    req.getRequestDispatcher("/editUser.jsp").forward(req, resp);
+                    resp.sendRedirect("/admin/editUser");
+                }
+            }
             userService.updateUser(id, user);
             logger.warn("Edit user data " + user + " in db");
         }

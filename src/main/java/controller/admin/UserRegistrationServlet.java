@@ -4,6 +4,7 @@ import factory.UserServiceFactory;
 import model.User;
 import org.apache.log4j.Logger;
 import service.user.UserService;
+import utils.HashUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 @WebServlet(value = "/admin/register")
 public class UserRegistrationServlet extends HttpServlet {
@@ -59,6 +62,7 @@ public class UserRegistrationServlet extends HttpServlet {
         }
 
         if (!repeatPassword.equals(password)) {
+            req.setAttribute("email", email);
             req.setAttribute("error", "Your passwords are not equals! Try better.");
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
             resp.sendRedirect("/admin/register");
@@ -66,10 +70,18 @@ public class UserRegistrationServlet extends HttpServlet {
 
         User userFromSession = (User) req.getSession().getAttribute("user");
         if(userFromSession != null && userFromSession.getRole().equals("admin")) {
-            User user = new User(email, password, role);
-            userService.addUser(user);
-            logger.warn("Add new user " + user + " to db");
-            resp.sendRedirect("/admin/users");
+            try {
+                String hashedPassword = HashUtil.generateHashPassword(password);
+                User user = new User(email, hashedPassword, role);
+                userService.addUser(user);
+                logger.info("Add new user " + user + " to db");
+                req.setAttribute("allUsers", userService.getAll());
+                resp.sendRedirect("/admin/users");
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                logger.error("Can not hashing password", e);
+                req.getRequestDispatcher("/register.jsp").forward(req, resp);
+                resp.sendRedirect("/admin/register");
+            }
         }
     }
 }
