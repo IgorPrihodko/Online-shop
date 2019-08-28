@@ -10,19 +10,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(value = "/signIn")
 public class SignInServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(SignInServlet.class);
     private static final UserService userService = UserServiceFactory.getInstance();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        req.getRequestDispatcher("users.jsp").forward(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -43,13 +39,16 @@ public class SignInServlet extends HttpServlet {
             }
         }
 
-        for (User user : userService.getAll()) {
-            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
-                logger.warn("Sign in user " + user);
-                resp.sendRedirect("/users");
-                return;
-            }
+        Optional<User> optionalUser = userService.getByEmail(email);
+        if (optionalUser.isPresent() && optionalUser.get().getPassword().equals(password)) {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", optionalUser.get());
+            logger.warn("Sign in user " + optionalUser.get());
+            req.setAttribute("allUsers", userService.getAll());
+            req.getRequestDispatcher("/users.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/users");
         }
+
         req.setAttribute("error", "Wrong email or password");
         req.getRequestDispatcher("index.jsp").forward(req, resp);
         resp.sendRedirect("/");

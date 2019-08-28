@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
   <title>Title</title>
@@ -7,10 +6,6 @@
 <body>
   <center>
     Welcome to this online-Store!
-  </center>
-  <center>
-    You can register here --->
-    <a href="/register">Registration</a>
   </center>
   <center>
   <center>

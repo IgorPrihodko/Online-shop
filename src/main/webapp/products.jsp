@@ -1,7 +1,3 @@
-<%@ page import="model.Product" %>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.util.List" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -36,7 +32,7 @@
     </c:forEach>
 </table>
 <div align="center">
-    <a href="/users">List of all users</a>
+    <a href="/admin/users">List of all users</a>
 </div>
 <div align="center">
     <form action="/" method="get">

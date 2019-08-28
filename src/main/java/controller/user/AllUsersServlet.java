@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(value = "/users", loadOnStartup = 2)
+@WebServlet(value = "/admin/users")
 public class AllUsersServlet extends HttpServlet {
 
     private static final UserService userService = UserServiceFactory.getInstance();
-    private List<User> allUsers = userService.getAll();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        List<User> allUsers = userService.getAll();
         req.setAttribute("allUsers", allUsers);
-        req.getRequestDispatcher("users.jsp").forward(req, resp);
+        req.getRequestDispatcher("/users.jsp").forward(req, resp);
     }
 }

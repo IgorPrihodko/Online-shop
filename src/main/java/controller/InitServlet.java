@@ -21,7 +21,7 @@ public class InitServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        User user = new User("test@test", "test");
+        User user = new User("test@test", "test", "admin");
         userService.addUser(user);
         logger.warn("Add initial user " + user + " to DB");
 

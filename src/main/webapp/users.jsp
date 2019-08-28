@@ -1,7 +1,3 @@
-<%@ page import="model.User" %>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page import="java.util.List" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -10,7 +6,7 @@
 </head>
 <body>
 <div align="center">
-    <a href="/register">Register new user</a>
+    <a href="/admin/register">Register new user</a>
 </div>
 <table border="1" align="center">
     <div align="center">
@@ -20,6 +16,7 @@
         <td>ID</td>
         <td>Email</td>
         <td>Password</td>
+        <td>Role</td>
         <td>Edit user</td>
         <td>Delete user</td>
     </tr>
@@ -28,8 +25,9 @@
             <td>${user.id}</td>
             <td>${user.email}</td>
             <td>${user.password}</td>
-            <td><a href="/editUser?id=${user.id}">Edit</a></td>
-            <td><a href="/deleteUser?id=${user.id}">Delete</a></td>
+            <td>${user.role}</td>
+            <td><a href="/admin/editUser?id=${user.id}">Edit</a></td>
+            <td><a href="/admin/deleteUser?id=${user.id}">Delete</a></td>
         </tr>
     </c:forEach>
 </table>
