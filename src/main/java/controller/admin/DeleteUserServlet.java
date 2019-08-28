@@ -1,4 +1,4 @@
-package controller.user;
+package controller.admin;
 
 import factory.UserServiceFactory;
 import model.User;

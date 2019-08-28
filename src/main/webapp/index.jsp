@@ -9,7 +9,7 @@
   </center>
   <center>
   <center>
-    Or you can signing in
+    Sign in here
   </center>
   <form action="/signIn" method="post">
     <input name="email" placeholder="Email" type="email"/>

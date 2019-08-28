@@ -1,6 +1,7 @@
-package controller.user;
+package controller;
 
 import factory.UserServiceFactory;
+import model.Basket;
 import model.User;
 import org.apache.log4j.Logger;
 import service.user.UserService;
@@ -44,9 +45,14 @@ public class SignInServlet extends HttpServlet {
             HttpSession session = req.getSession();
             session.setAttribute("user", optionalUser.get());
             logger.warn("Sign in user " + optionalUser.get());
-            req.setAttribute("allUsers", userService.getAll());
-            req.getRequestDispatcher("/users.jsp").forward(req, resp);
-            resp.sendRedirect("/admin/users");
+            if (optionalUser.get().getRole().equals("admin")) {
+                req.setAttribute("allUsers", userService.getAll());
+                req.getRequestDispatcher("/users.jsp").forward(req, resp);
+            } else {
+                Basket basket = new Basket(optionalUser.get().getId());
+                session.setAttribute("basket", basket);
+                req.getRequestDispatcher("/account.jsp").forward(req, resp);
+            }
         }
 
         req.setAttribute("error", "Wrong email or password");

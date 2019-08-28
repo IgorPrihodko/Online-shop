@@ -32,7 +32,7 @@
     </c:forEach>
 </table>
 <div align="center">
-    <a href="/products">List of all products</a>
+    <a href="/admin/products">List of all products</a>
 </div>
 <div align="center">
     <form action="/" method="get">

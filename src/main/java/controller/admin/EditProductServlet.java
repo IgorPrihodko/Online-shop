@@ -1,4 +1,4 @@
-package controller.product;
+package controller.admin;
 
 import factory.ProductServiceFactory;
 import model.Product;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/editProduct")
+@WebServlet(value = "/admin/editProduct")
 public class EditProductServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(EditProductServlet.class);
@@ -27,8 +27,8 @@ public class EditProductServlet extends HttpServlet {
         req.setAttribute("title", product.getTitle());
         req.setAttribute("description", product.getDescription());
         req.setAttribute("price", product.getPrice());
-        req.getRequestDispatcher("editProduct.jsp").forward(req, resp);
-        resp.sendRedirect("/editProduct");
+        req.getRequestDispatcher("/editProduct.jsp").forward(req, resp);
+        resp.sendRedirect("/admin/editProduct");
     }
 
     @Override
@@ -57,13 +57,13 @@ public class EditProductServlet extends HttpServlet {
             } else {
                 req.setAttribute("price", price);
             }
-            req.getRequestDispatcher("editProduct.jsp").forward(req, resp);
-            resp.sendRedirect("/editProduct");
+            req.getRequestDispatcher("/editProduct.jsp").forward(req, resp);
+            resp.sendRedirect("/admin/editProduct");
         }
         product.setTitle(title);
         product.setDescription(description);
         product.setPrice(price);
         logger.warn("Edit product " + product + " in db");
-        resp.sendRedirect("/products");
+        resp.sendRedirect("/admin/products");
     }
 }

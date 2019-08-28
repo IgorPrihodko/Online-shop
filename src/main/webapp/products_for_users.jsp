@@ -1,24 +1,25 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>All products</title>
+    <title>Products</title>
 </head>
 <body>
-<div align="center">
-    <a href="/admin/addProduct">Add new product</a>
+<div align="right">
+    <form action="/user/basket" method="get">
+        <button type="submit">Basket</button>
+    </form>
 </div>
 <table border="1" align="center">
     <div align="center">
-        <h2>All products list</h2>
+        <h2>All products</h2>
     </div>
     <tr>
         <td>ID</td>
         <td>Title</td>
         <td>Description</td>
         <td>Price</td>
-        <td>Edit product</td>
-        <td>Delete product</td>
+        <td>To basketID</td>
     </tr>
     <c:forEach var="product" items="${allProducts}">
         <tr>
@@ -26,14 +27,12 @@
             <td>${product.title}</td>
             <td>${product.description}</td>
             <td>${product.price}</td>
-            <td><a href="/admin/editProduct?id=${product.id}">Edit</a></td>
-            <td><a href="/admin/deleteProduct?id=${product.id}">Delete</a></td>
+            <td><form action="/user/basket?id=${product.id}" method="post">
+                <button type="submit">To basket</button>
+            </form></td>
         </tr>
     </c:forEach>
 </table>
-<div align="center">
-    <a href="/admin/users">List of all users</a>
-</div>
 <div align="center">
     <form action="/" method="get">
         <button type="submit">Exit</button>

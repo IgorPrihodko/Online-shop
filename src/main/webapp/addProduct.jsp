@@ -6,7 +6,7 @@
 </head>
 <body>
 <center>
-    <form action="/addProduct" method="post">
+    <form action="/admin/addProduct" method="post">
         Title <input name="title" type="text"/>
         Description <input name="description" type="text"/>
         Price <input name="price" type="number" step="0.1"/>

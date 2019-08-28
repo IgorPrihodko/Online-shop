@@ -1,4 +1,4 @@
-package controller.product;
+package controller.admin;
 
 import factory.ProductServiceFactory;
 import model.Product;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/addProduct")
+@WebServlet(value = "/admin/addProduct")
 public class AddProductServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(AddProductServlet.class);
@@ -21,7 +21,7 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        req.getRequestDispatcher("addProduct.jsp").forward(req, resp);
+        req.getRequestDispatcher("/addProduct.jsp").forward(req, resp);
     }
 
     @Override
@@ -32,12 +32,12 @@ public class AddProductServlet extends HttpServlet {
         Double price = Double.parseDouble(req.getParameter("price"));
         if (title.isEmpty() || description.isEmpty() || price.isNaN()) {
             req.setAttribute("error", "One or more fields are empty! Try better.");
-            req.getRequestDispatcher("addProduct.jsp").forward(req, resp);
+            req.getRequestDispatcher("/addProduct.jsp").forward(req, resp);
         }
 
         Product product = new Product(title, description, price);
         productService.addProduct(product);
         logger.warn("Add new product " + product + " to db");
-        resp.sendRedirect("/products");
+        resp.sendRedirect("/admin/products");
     }
 }
